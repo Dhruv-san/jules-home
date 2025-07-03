@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useNhostClient, useSignInEmailPassword } from '@nhost/react';
-import { NhostSession, NhostSignInResult } from '@nhost/nhost-js';
+
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const LoginPage: React.FC = () => {
 
   const handleGoogleLogin = async () => {
     try {
-      const result: NhostSignInResult = await nhost.auth.signIn({
+      const result = await nhost.auth.signIn({
         provider: 'google',
       });
       if (result.error) {

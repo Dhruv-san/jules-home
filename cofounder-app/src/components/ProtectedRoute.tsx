@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { useAuthenticationStatus, useUserData, useNhostClient } from '@nhost/react'; // Added useNhostClient
-import { gql, useQuery, ApolloProvider } from '@apollo/client'; // Added ApolloProvider
+import { useAuthenticationStatus, useUserData } from '@nhost/react'; // Added useNhostClient
+import { gql, useQuery } from '@apollo/client'; // Added ApolloProvider
 
 // Nhost provides an Apollo Client instance, let's use that.
 // We need to wrap the part of the tree that uses useQuery with ApolloProvider
@@ -25,7 +25,7 @@ const GET_USER_PROFILE_STATUS = gql`
   }
 `;
 
-const ProfileCompletionGate: React.FC<{ children: JSX.Element }> = ({ children }) => {
+const ProfileCompletionGate: React.FC<{ children: React.ReactElement }> = ({ children }) => {
   const user = useUserData();
   const location = useLocation();
 

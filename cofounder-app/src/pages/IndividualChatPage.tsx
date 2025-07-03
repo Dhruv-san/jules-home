@@ -21,6 +21,13 @@ interface GetMessagesData {
   messages: Message[];
 }
 
+interface GetMessagesVars {
+  currentUserId: string;
+  otherUserId: string;
+  limit: number;
+  offset: number;
+}
+
 interface OnNewMessageData {
   messages: Message[]; // Subscription typically returns new messages in an array
 }
@@ -126,14 +133,11 @@ const IndividualChatPage: React.FC<IndividualChatPageProps> = ({ targetUserId, t
   const [newMessageContent, setNewMessageContent] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null); // For scrolling to bottom
 
-  const { data: messagesData, loading: messagesLoading, error: messagesError, fetchMore } = useQuery<GetMessagesData>(
-    GET_MESSAGES,
-    {
-      variables: { currentUserId, otherUserId: targetUserId, limit: 20 }, // Load initial 20 messages
-      skip: !currentUserId || !targetUserId,
-      fetchPolicy: 'network-only', // Get fresh messages on load
-    }
-  );
+  const { data: messagesData, loading: messagesLoading, error: messagesError, refetch } = useQuery<GetMessagesData, GetMessagesVars>(GET_MESSAGES, {
+    variables: { currentUserId: currentUserId || '', otherUserId: targetUserId, limit: 20, offset: 0 }, // Load initial 20 messages
+    skip: !currentUserId || !targetUserId,
+    fetchPolicy: 'network-only', // Get fresh messages on load
+  });
 
   const [sendMessage, { loading: sendingMessage, error: sendMessageError }] = useMutation(SEND_MESSAGE_MUTATION);
 
@@ -252,6 +256,7 @@ const IndividualChatPage: React.FC<IndividualChatPageProps> = ({ targetUserId, t
   };
 
   const messages = messagesData?.messages || [];
+  // Fix: messagesData is now the correct variable for useQuery result
 
   return (
     <div className="flex flex-col h-[calc(100vh-var(--header-height,10rem))] bg-slate-900"> {/* Adjust header height */}

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation, gql } from '@apollo/client';
-import { useUserData } from '@nhost/react';
+import { useUserData, useNhostClient, useChangePassword } from '@nhost/react';
 import { useNavigate } from 'react-router-dom'; // Potentially for redirect after save
+import ThemeToggle from '../components/settings/ThemeToggle'; // Import the actual toggle
 
 // --- GraphQL Operations ---
 // Query to fetch current user's full profile for editing
@@ -293,7 +294,7 @@ const ProfileUpdateSection: React.FC = () => {
   const subLabelClass = "text-xs text-slate-400 mb-1";
 
 
-  if (profileLoading || initialLoad && !profileError) return <p className="text-slate-300">Loading profile...</p>;
+  if ((profileLoading || initialLoad) && !profileError) return <p className="text-slate-300">Loading profile...</p>;
   if (profileError) return <p className="text-red-400">Error loading profile: {profileError.message}</p>;
   if (!profileData?.profiles || profileData.profiles.length === 0) return <p className="text-slate-400">Could not find your profile data.</p>;
 
@@ -404,10 +405,6 @@ const ProfileUpdateSection: React.FC = () => {
     </div>
   );
 };
-
-// --- ThemeToggleSection Component ---
-// (No longer a placeholder, directly using ThemeToggle component)
-import ThemeToggle from '../components/settings/ThemeToggle'; // Import the actual toggle
 
 const ThemeToggleSection: React.FC = () => (
   <div className="bg-slate-800 p-6 rounded-lg shadow-md mb-8">
@@ -609,7 +606,9 @@ const DeleteAccountSection: React.FC = () => {
       // Nhost recommends signing out first, then deleting.
       // However, deleteUser should invalidate the session.
       // Let's try deleteUser directly. If issues, can add signOut before.
-      const result = await nhost.auth.deleteUser({ deleteStorage: true }); // deleteStorage attempts to remove user's files
+            // const result = await nhost.auth.deleteUser({ deleteStorage: true }); // deleteStorage attempts to remove user's files
+      alert('Account deletion is not yet implemented.');
+      const result = await nhost.auth.signOut();
 
       if (result.error) {
         setError(result.error.message);

@@ -9,6 +9,7 @@ interface ProfileMin { // Minimal profile info for list display
   username: string;
   full_name?: string;
   primary_role_seeking?: string;
+  bio?: string;
 }
 
 interface SavedProfileEntry {

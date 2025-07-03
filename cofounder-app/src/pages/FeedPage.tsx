@@ -100,7 +100,7 @@ const PostItem: React.FC<{ post: Post }> = ({ post }) => {
       {post.content_text && <p className="text-slate-300 mb-3 whitespace-pre-wrap">{post.content_text}</p>}
       {post.image_urls && post.image_urls.length > 0 && (
         <div className={`grid gap-2 mb-3 ${post.image_urls.length > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
-          {post.image_urls.map((url, index) => <img key={index} src={url} alt={`post image ${index + 1}`} className="rounded-md object-cover w-full max-h-96" />)}
+          {post.image_urls.map((url, index) => <img src={url} alt="" className="w-full h-auto object-cover rounded-md" />)}
         </div>
       )}
       {post.video_url && (
@@ -127,7 +127,7 @@ const FeedPage: React.FC = () => {
     variables: { limit: 10, offset: 0 },
     notifyOnNetworkStatusChange: true,
   });
-  const { data: interestsData, loading: interestsLoading } = useQuery<GetUserInterestsData>(GET_USER_INTERESTS, {
+  const { data: interestsData, error: interestsError } = useQuery(GET_USER_INTERESTS, {
       variables: { userId: currentUser?.id },
       skip: !currentUser?.id,
   });
@@ -188,10 +188,7 @@ const FeedPage: React.FC = () => {
 
   const posts = postsData?.posts || [];
 
-  // Combine and sort posts and news for an interleaved feed (simplified)
-  // This is a basic interleaving. More sophisticated logic might be desired.
-  const combinedFeedItems = [...posts.map(p => ({ ...p, type: 'post' })), ...newsArticles.map(n => ({ ...n, type: 'news', id: n.url, created_at: n.publishedAt }))]
-    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+  
 
 
   return (

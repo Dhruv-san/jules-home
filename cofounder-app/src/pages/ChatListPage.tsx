@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery, gql } from '@apollo/client';
 import { useUserData } from '@nhost/react';
-import { Link } from 'react-router-dom'; // If using React Router for individual chat routes
+ // If using React Router for individual chat routes
 
 // Define types for the data
 interface UserProfile {

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNhostClient } from '@nhost/react';
 import { useMutation, gql } from '@apollo/client';
 

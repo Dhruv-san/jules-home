@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useNhostClient, useSignUpEmailPassword } from '@nhost/react'; // useSignUpEmailPassword hook
-import { NhostSignUpResult } from '@nhost/nhost-js';
+
 
 const SignupPage: React.FC = () => {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ const SignupPage: React.FC = () => {
 
   const handleGoogleSignup = async () => {
     try {
-      const result: NhostSignUpResult = await nhost.auth.signIn({
+      const result = await nhost.auth.signIn({
         provider: 'google',
       });
       if (result.error) {
@@ -48,7 +48,7 @@ const SignupPage: React.FC = () => {
     // We'll use nhost.auth.signUp directly for more control if needed, or collect username later.
     // For this step, we'll use the hook and note that username needs to be handled post-signup in profile setup.
 
-    const result = await signUpEmailPassword(email, password, {
+    await signUpEmailPassword(email, password, {
         // Nhost's useSignUpEmailPassword hook has an `options` parameter.
         // We can specify metadata here if the backend is configured to accept it.
         // However, 'username' is a top-level concept in Nhost auth for passwordless email.

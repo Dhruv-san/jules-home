@@ -118,17 +118,17 @@ const SwipePage: React.FC = () => {
     fetchPolicy: 'network-only',
   });
 
-  const { data: mySavedData, refetch: refetchMySavedIds } = useQuery(GET_MY_SAVED_PROFILE_IDS, {
+  const { refetch: refetchMySavedIds } = useQuery(GET_MY_SAVED_PROFILE_IDS, {
     variables: { currentUserId },
     skip: !currentUserId,
     onCompleted: (data) => {
-      const ids = new Set(data.saved_profiles.map((p: { saved_profile_user_id: string }) => p.saved_profile_user_id));
+      const ids: Set<string> = new Set(data.saved_profiles.map((p: { saved_profile_user_id: string }) => p.saved_profile_user_id));
       setSavedProfileIds(ids);
     }
   });
 
   const [recordSwipe] = useMutation(RECORD_SWIPE_MUTATION);
-  const [checkForMatch] = useQuery(CHECK_FOR_MATCH_QUERY, { skip: true, fetchPolicy: 'network-only' });
+  const { refetch: checkForMatch } = useQuery(CHECK_FOR_MATCH_QUERY, { skip: true, fetchPolicy: 'network-only' });
   const [saveProfileMutation] = useMutation(SAVE_PROFILE_MUTATION);
   const [unsaveProfileMutation] = useMutation(UNSAVE_PROFILE_MUTATION);
 
