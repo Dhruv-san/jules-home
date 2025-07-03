@@ -184,8 +184,8 @@ const IndividualChatPage: React.FC<IndividualChatPageProps> = ({ targetUserId, t
             // For this example, we'll assume new messages from subscription should trigger a refetch of the main query.
             // This is not the most efficient but simplest to implement initially.
             // A better way is client.cache.modify...
-            // For now, let's just log it and rely on manual refresh or a slight delay.
-            console.log("New message received via subscription:", newMessages);
+            // For now, let's rely on Apollo cache updates or subsequent refetches if needed.
+            // console.log("New message received via subscription:", newMessages); // Removed
             // To make it appear: could add to a local state array that combines with messagesData.messages
             // Or, more robustly, configure Apollo Client cache updates.
             // For this example, let's assume the user might need to manually refresh or we add a button.
@@ -258,24 +258,36 @@ const IndividualChatPage: React.FC<IndividualChatPageProps> = ({ targetUserId, t
   const messages = messagesData?.messages || [];
   // Fix: messagesData is now the correct variable for useQuery result
 
+import { HiArrowLeft, HiPaperAirplane, HiUserCircle, HiCheckCircle } from 'react-icons/hi'; // Added icons
+
+// ... (imports and GQL definitions remain the same)
+
+// ... (IndividualChatPageProps and component function signature remain the same)
+
+// ... (state, queries, mutations, effects remain the same up to the return statement)
+
   return (
-    <div className="flex flex-col h-[calc(100vh-var(--header-height,10rem))] bg-slate-900"> {/* Adjust header height */}
+    <div className="flex flex-col h-full max-h-screen bg-white dark:bg-slate-900"> {/* Ensure full height for chat layout */}
       {/* Chat Header */}
-      <header className="p-4 bg-slate-800 text-white shadow-md flex items-center sticky top-0 z-10">
-        <button onClick={onBackToList} className="mr-4 text-sky-400 hover:text-sky-300 text-2xl">&larr;</button>
-        {/* Avatar Placeholder */}
-        <div className="w-10 h-10 bg-slate-600 rounded-full mr-3 flex items-center justify-center text-lg">
-          {targetUserName.charAt(0).toUpperCase()}
-        </div>
-        <h2 className="text-xl font-semibold">{targetUserName}</h2>
+      <header className="p-3 sm:p-4 bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white shadow-sm flex items-center sticky top-0 z-20 border-b border-slate-200 dark:border-slate-700">
+        <button
+            onClick={onBackToList}
+            className="mr-2 sm:mr-3 p-2 text-slate-600 dark:text-slate-300 hover:text-rose-500 dark:hover:text-rose-400 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+            aria-label="Back to chat list"
+        >
+          <HiArrowLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+        </button>
+        {/* Avatar Placeholder - TODO: Fetch targetUser's avatarUrl if available */}
+        <HiUserCircle className="w-8 h-8 sm:w-10 sm:h-10 text-slate-500 dark:text-slate-400 mr-2 sm:mr-3" />
+        <h2 className="text-lg sm:text-xl font-semibold truncate">{targetUserName}</h2>
       </header>
 
       {/* Messages Area */}
-      <div className="flex-grow overflow-y-auto p-4 space-y-3 bg-slate-900">
-        {messagesLoading && <p className="text-center text-slate-400">Loading messages...</p>}
-        {messagesError && <p className="text-center text-red-400">Error loading messages: {messagesError.message}</p>}
+      <div className="flex-grow overflow-y-auto p-3 sm:p-4 space-y-3"> {/* Removed bg-slate-900, inherits from parent */}
+        {messagesLoading && <p className="text-center text-slate-500 dark:text-slate-400 py-4">Loading messages...</p>}
+        {messagesError && <p className="text-center text-red-500 dark:text-red-400 py-4">Error: {messagesError.message}</p>}
         {!messagesLoading && messages.length === 0 && (
-          <p className="text-center text-slate-500">No messages yet. Say hello!</p>
+          <p className="text-center text-slate-400 dark:text-slate-500 py-10">No messages yet. Say hello! 👋</p>
         )}
         {messages.map((msg) => (
           <div
@@ -283,47 +295,51 @@ const IndividualChatPage: React.FC<IndividualChatPageProps> = ({ targetUserId, t
             className={`flex ${msg.sender_id === currentUserId ? 'justify-end' : 'justify-start'}`}
           >
             <div
-              className={`max-w-xs lg:max-w-md px-4 py-2 rounded-xl shadow ${
+              className={`max-w-[70%] sm:max-w-[60%] px-3.5 py-2 rounded-2xl shadow ${
                 msg.sender_id === currentUserId
-                  ? 'bg-rose-600 text-white'
-                  : 'bg-slate-700 text-slate-200'
+                  ? 'bg-rose-500 dark:bg-rose-600 text-white rounded-br-none'
+                  : 'bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-100 rounded-bl-none'
               }`}
             >
-              <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
-              <p className={`text-xs mt-1 ${msg.sender_id === currentUserId ? 'text-rose-200' : 'text-slate-400'} opacity-75`}>
-                {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                {msg.sender_id === currentUserId && msg.is_read && <span className="ml-1">✓✓</span>}
-                {/* Basic read receipt for own messages */}
-              </p>
+              <p className="text-sm whitespace-pre-wrap break-words">{msg.content}</p>
+              <div className={`text-xs mt-1 flex items-center ${msg.sender_id === currentUserId ? 'text-rose-100 dark:text-rose-300' : 'text-slate-400 dark:text-slate-500'} opacity-80`}>
+                <span>{new Date(msg.created_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })}</span>
+                {msg.sender_id === currentUserId && msg.is_read && <HiCheckCircle className="w-3 h-3 ml-1 text-sky-300 dark:text-sky-400" title="Read" />}
+              </div>
             </div>
           </div>
         ))}
-        <div ref={messagesEndRef} /> {/* Anchor for scrolling to bottom */}
+        <div ref={messagesEndRef} />
       </div>
 
       {/* Message Input Area */}
-      <footer className="p-4 bg-slate-800 border-t border-slate-700 sticky bottom-0 z-10">
-        <form onSubmit={handleSendMessage} className="flex items-center space-x-3">
+      <footer className="p-3 sm:p-4 bg-slate-100 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 sticky bottom-0 z-20">
+        <form onSubmit={handleSendMessage} className="flex items-center space-x-2 sm:space-x-3">
           <input
             type="text"
             value={newMessageContent}
             onChange={(e) => setNewMessageContent(e.target.value)}
             placeholder="Type a message..."
-            className="flex-grow p-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-rose-500"
+            className="flex-grow p-3 rounded-full shadow-sm border border-slate-300 dark:border-slate-600 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 sm:text-sm transition-colors duration-150 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 disabled:opacity-50"
             disabled={sendingMessage}
           />
           <button
             type="submit"
             disabled={sendingMessage || !newMessageContent.trim()}
-            className="px-6 py-3 bg-rose-600 hover:bg-rose-700 text-white font-semibold rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            className="p-3 bg-rose-500 hover:bg-rose-600 dark:bg-rose-600 dark:hover:bg-rose-700 text-white font-semibold rounded-full disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-150 ease-in-out transform focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800 shadow-lg hover:scale-105 active:scale-95"
+            aria-label="Send message"
           >
-            {sendingMessage ? 'Sending...' : 'Send'}
+            {sendingMessage ?
+                <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                : <HiPaperAirplane className="w-5 h-5 transform rotate-[30deg]" /> // Adjusted rotation for better look
+            }
           </button>
         </form>
-        {sendMessageError && <p className="text-xs text-red-400 mt-1">Failed to send: {sendMessageError.message}</p>}
+        {sendMessageError && <p className="text-xs text-red-500 dark:text-red-400 mt-1 pl-2">Failed to send: {sendMessageError.message}</p>}
       </footer>
     </div>
   );
+// ... (rest of the component export)
 };
 
 export default IndividualChatPage;
