@@ -469,17 +469,17 @@ const ChangeEmailSection: React.FC = () => {
             value={newEmail}
             onChange={(e) => setNewEmail(e.target.value)}
             required
-            className="mt-1 block w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 disabled:opacity-50"
+            className="mt-1 block w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 sm:text-sm disabled:opacity-50 transition-colors duration-150"
             disabled={isLoading}
           />
         </div>
-        {error && <p className="text-sm text-red-400">{error}</p>}
-        {successMessage && <p className="text-sm text-green-400">{successMessage}</p>}
+        {error && <p className="text-sm text-red-500 dark:text-red-400">{error}</p>}
+        {successMessage && <p className="text-sm text-green-600 dark:text-green-400">{successMessage}</p>}
         <div>
           <button
             type="submit"
             disabled={isLoading || !newEmail.trim()}
-            className="px-5 py-2.5 bg-sky-600 hover:bg-sky-700 text-white font-semibold rounded-lg disabled:opacity-50"
+            className="px-6 py-2.5 text-sm font-semibold text-white bg-sky-600 hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-600 rounded-lg shadow-md hover:shadow-lg transition-all duration-150 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? 'Sending...' : 'Send Verification Email'}
           </button>
@@ -547,12 +547,12 @@ const ChangePasswordSection: React.FC = () => {
             onChange={(e) => { setNewPassword(e.target.value); setFormError(null); }}
             required
             minLength={6}
-            className="mt-1 block w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 disabled:opacity-50"
+            className="mt-1 block w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 sm:text-sm disabled:opacity-50 transition-colors duration-150"
             disabled={isLoading}
           />
         </div>
         <div>
-          <label htmlFor="confirmPassword" className="block text-sm font-medium text-slate-300">
+          <label htmlFor="confirmPassword" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
             Confirm New Password
           </label>
           <input
@@ -563,18 +563,18 @@ const ChangePasswordSection: React.FC = () => {
             onChange={(e) => { setConfirmPassword(e.target.value); setFormError(null); }}
             required
             minLength={6}
-            className="mt-1 block w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 disabled:opacity-50"
+            className="mt-1 block w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 sm:text-sm disabled:opacity-50 transition-colors duration-150"
             disabled={isLoading}
           />
         </div>
-        {formError && <p className="text-sm text-red-400">{formError}</p>}
-        {isError && error && <p className="text-sm text-red-400">Error: {error.message}</p>}
-        {isSuccess && <p className="text-sm text-green-400">Password changed successfully!</p>}
+        {formError && <p className="text-sm text-red-500 dark:text-red-400">{formError}</p>}
+        {isError && error && <p className="text-sm text-red-500 dark:text-red-400">Error: {error.message}</p>}
+        {isSuccess && <p className="text-sm text-green-600 dark:text-green-400">Password changed successfully!</p>}
         <div>
           <button
             type="submit"
             disabled={isLoading || !newPassword || !confirmPassword}
-            className="px-5 py-2.5 bg-sky-600 hover:bg-sky-700 text-white font-semibold rounded-lg disabled:opacity-50"
+            className="px-6 py-2.5 text-sm font-semibold text-white bg-sky-600 hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-600 rounded-lg shadow-md hover:shadow-lg transition-all duration-150 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? 'Changing...' : 'Change Password'}
           </button>
@@ -653,21 +653,21 @@ const DeleteAccountSection: React.FC = () => {
               value={confirmationText}
               onChange={(e) => { setConfirmationText(e.target.value); setError(null); }}
               placeholder={`Type "${requiredConfirmationText}" here`}
-              className="mt-1 block w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500"
+              className="mt-1 block w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-red-500 dark:focus:ring-red-400 focus:border-red-500 dark:focus:border-red-400 sm:text-sm transition-colors duration-150"
             />
-            {error && <p className="text-xs text-red-400 mt-2">{error}</p>}
-            <div className="mt-6 flex justify-end space-x-3">
+            {error && <p className="text-xs text-red-500 dark:text-red-400 mt-2">{error}</p>}
+            <div className="mt-6 flex flex-col sm:flex-row sm:justify-end sm:space-x-3 space-y-2 sm:space-y-0">
               <button
                 onClick={() => { setIsModalOpen(false); setError(null); setConfirmationText('');}}
                 disabled={isLoading}
-                className="px-4 py-2 bg-slate-600 hover:bg-slate-500 text-white font-medium rounded-md disabled:opacity-50"
+                className="w-full sm:w-auto px-5 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-200 bg-slate-200 dark:bg-slate-600 hover:bg-slate-300 dark:hover:bg-slate-500 rounded-lg shadow-sm hover:shadow-md transition-all duration-150 ease-in-out disabled:opacity-50"
               >
                 Cancel
               </button>
               <button
                 onClick={handleDeleteAccount}
                 disabled={isLoading || confirmationText !== requiredConfirmationText}
-                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full sm:w-auto px-5 py-2.5 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600 rounded-lg shadow-md hover:shadow-lg transition-all duration-150 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading ? 'Deleting...' : 'Permanently Delete Account'}
               </button>

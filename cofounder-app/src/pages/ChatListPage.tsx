@@ -107,27 +107,18 @@ const ChatListPage: React.FC<ChatListPageProps> = ({ onSelectConversation }) => 
               <div
                 key={match.id}
                 onClick={() => onSelectConversation(otherUser.id, otherUserName)}
-                className="flex items-center p-4 bg-slate-800 hover:bg-slate-700 rounded-lg shadow cursor-pointer transition-colors"
+                className="flex items-center p-4 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-xl shadow-md hover:shadow-lg cursor-pointer transition-all duration-150 ease-in-out transform hover:-translate-y-0.5"
               >
-                {/* Avatar Placeholder */}
-                <div className="w-12 h-12 bg-slate-600 rounded-full mr-4 flex items-center justify-center text-xl text-white">
+                {/* Avatar - TODO: Fetch actual avatarUrl for otherUser */}
+                <div className="w-12 h-12 bg-slate-200 dark:bg-slate-600 rounded-full mr-4 flex items-center justify-center text-xl text-slate-700 dark:text-white font-semibold">
                   {otherUserName.charAt(0).toUpperCase()}
                 </div>
                 <div className="flex-grow">
-                  <h3 className="font-semibold text-white">{otherUserName}</h3>
-                  {/* Placeholder for last message snippet - requires 'messages' sub-query & relationship */}
-                  {/* {lastMessage ? (
-                    <p className="text-sm text-slate-400 truncate">
-                      {lastMessage.sender_id === currentUserId ? "You: " : ""}
-                      {lastMessage.content}
-                    </p>
-                  ) : (
-                    <p className="text-sm text-slate-500 italic">No messages yet.</p>
-                  )} */}
-                   <p className="text-sm text-slate-500 italic">Click to open chat.</p>
+                  <h3 className="font-semibold text-slate-800 dark:text-white">{otherUserName}</h3>
+                   <p className="text-sm text-slate-500 dark:text-slate-400 italic">Click to open chat.</p>
                 </div>
-                {/* Placeholder for unread count or timestamp */}
-                {/* {lastMessage && <p className="text-xs text-slate-500 ml-auto self-start">{new Date(lastMessage.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>} */}
+                {/* Future: Unread count badge */}
+                {/* Future: Timestamp of last message */}
               </div>
             );
           })}

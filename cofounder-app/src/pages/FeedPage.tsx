@@ -89,22 +89,37 @@ const PostItem: React.FC<{ post: Post }> = ({ post }) => {
   );
 
   return (
-    <div className="bg-slate-800 p-4 sm:p-5 rounded-lg shadow-md">
-      <div className="flex items-center mb-3">
+    <div className="bg-white dark:bg-slate-800 p-4 sm:p-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl dark:hover:shadow-rose-500/20">
+      <div className="flex items-center mb-4">
+        {/* Avatar - TODO: Use actual avatar_url from post.Author if available */}
         <AuthorAvatarPlaceholder name={authorName} />
         <div>
-          <p className="font-semibold text-white">{authorName}</p>
-          <p className="text-xs text-slate-400">{new Date(post.created_at).toLocaleString()}</p>
+          <p className="font-semibold text-slate-800 dark:text-white">{authorName}</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">{new Date(post.created_at).toLocaleString()}</p>
         </div>
+        {/* TODO: Add Edit/Delete buttons if post.user_id === currentUser?.id, styled appropriately */}
       </div>
-      {post.content_text && <p className="text-slate-300 mb-3 whitespace-pre-wrap">{post.content_text}</p>}
+      {post.content_text && <p className="text-slate-700 dark:text-slate-300 mb-4 whitespace-pre-wrap leading-relaxed">{post.content_text}</p>}
+
       {post.image_urls && post.image_urls.length > 0 && (
-        <div className={`grid gap-2 mb-3 ${post.image_urls.length > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
-          {post.image_urls.map((url, index) => <img key={index} src={url} alt={`post image ${index + 1}`} className="rounded-md object-cover w-full max-h-96" />)}
+        <div className={`grid gap-2 mb-4 ${post.image_urls.length > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
+          {post.image_urls.map((url, index) =>
+            <img
+              key={index}
+              src={url}
+              alt={`post content ${index + 1}`}
+              className="rounded-lg object-cover w-full max-h-96 shadow-md"
+            />
+          )}
         </div>
       )}
+
       {post.video_url && (
-        <div className="mb-3"><video controls src={post.video_url} className="w-full max-w-md mx-auto rounded-md max-h-96 bg-black">Your browser does not support the video tag.</video></div>
+        <div className="mb-4 rounded-lg overflow-hidden shadow-md">
+          <video controls src={post.video_url} className="w-full max-w-full mx-auto max-h-96 bg-black"> {/* Changed max-w-md to max-w-full */}
+            Your browser does not support the video tag.
+          </video>
+        </div>
       )}
     </div>
   );
@@ -137,7 +152,10 @@ const FeedPage: React.FC = () => {
   const [newsError, setNewsError] = useState<string | null>(null);
   const [isLoadingMorePosts, setIsLoadingMorePosts] = useState(false);
 
-  const NEWS_API_KEY = '83a679cb473e4cf7bd58f918de5adee4'; // Store securely in .env for real apps
+  // Ensure you have a .env file at the root of your 'cofounder-app' project
+  // For local development, it would contain:
+  // REACT_APP_NEWS_API_KEY=83a679cb473e4cf7bd58f918de5adee4
+  const NEWS_API_KEY = process.env.REACT_APP_NEWS_API_KEY;
 
   useEffect(() => {
     const fetchNews = async () => {
