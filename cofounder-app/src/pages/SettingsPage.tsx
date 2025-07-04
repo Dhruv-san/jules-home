@@ -283,9 +283,11 @@ const ProfileUpdateSection: React.FC = () => {
       if (avatarPreview) URL.revokeObjectURL(avatarPreview); // Clean up old preview
       setAvatarPreview(null);
       refetchProfile(); // Refetch profile to show new avatar if URL changed
-    } catch (err: any) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: unknown) {
       console.error("Error updating profile:", err);
-      alert(`Error updating profile: ${err.message}`);
+      const errorMsg = err instanceof Error ? err.message : String(err);
+      alert(`Error updating profile: ${errorMsg}`);
     }
   };
 
@@ -442,8 +444,10 @@ const ChangeEmailSection: React.FC = () => {
         setSuccessMessage(`Verification email sent to ${newEmail}. Please check your inbox to confirm the change.`);
         setNewEmail(''); // Clear input
       }
-    } catch (err: any) {
-      setError(err.message || "An unexpected error occurred.");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : String(err);
+      setError(errorMsg || "An unexpected error occurred.");
     } finally {
       setIsLoading(false);
     }
@@ -619,7 +623,8 @@ const DeleteAccountSection: React.FC = () => {
         navigate('/'); // Redirect to landing page
         // No need to setIsLoading(false) as component will unmount on redirect.
       }
-    } catch (err) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: unknown) {
       const errorMsg = err instanceof Error ? err.message : String(err);
       setError(errorMsg || "An unexpected error occurred during account deletion.");
       setIsLoading(false);

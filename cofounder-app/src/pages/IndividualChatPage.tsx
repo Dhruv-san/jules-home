@@ -150,6 +150,7 @@ const IndividualChatPage: React.FC<IndividualChatPageProps> = ({ targetUserId, t
     onData: (options) => {
       // Apollo's onData receives: { client, data }
       // data is SubscriptionResult<OnNewMessageData, any>
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const messages = (options.data as any)?.data?.messages as Message[] | undefined;
       if (messages && Array.isArray(messages)) {
         const newMessages = messages;
