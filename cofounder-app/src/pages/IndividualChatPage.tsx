@@ -147,8 +147,10 @@ const IndividualChatPage: React.FC<IndividualChatPageProps> = ({ targetUserId, t
   useSubscription<OnNewMessageData>(ON_NEW_MESSAGE_SUBSCRIPTION, {
     variables: { currentUserId, otherUserId: targetUserId },
     skip: !currentUserId || !targetUserId,
-    onData: (options: { data?: OnNewMessageData }) => {
-      const messages = options.data?.messages;
+    onData: (options) => {
+      // Apollo's onData receives: { client, data }
+      // data is SubscriptionResult<OnNewMessageData, any>
+      const messages = (options.data as any)?.data?.messages as Message[] | undefined;
       if (messages && Array.isArray(messages)) {
         const newMessages = messages;
         // Update Apollo Client cache directly for real-time updates
