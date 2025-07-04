@@ -265,44 +265,93 @@ const IndividualChatPage: React.FC<IndividualChatPageProps> = ({ targetUserId, t
   // Fix: messagesData is now the correct variable for useQuery result
 
   return (
-    <div className="flex flex-col h-full max-h-screen bg-white dark:bg-slate-900"> {/* Ensure full height for chat layout */}
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100vh',
+      background: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)',
+      fontFamily: 'Inter, system-ui, sans-serif',
+    }}>
       {/* Chat Header */}
-      <header className="p-3 sm:p-4 bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white shadow-sm flex items-center sticky top-0 z-20 border-b border-slate-200 dark:border-slate-700">
+      <header style={{
+        padding: '1rem',
+        background: 'rgba(255,255,255,0.95)',
+        color: '#1e293b',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+        display: 'flex',
+        alignItems: 'center',
+        position: 'sticky',
+        top: 0,
+        zIndex: 20,
+        borderBottom: '1px solid #e2e8f0',
+        minHeight: 64,
+      }}>
         <button
-            onClick={onBackToList}
-            className="mr-2 sm:mr-3 p-2 text-slate-600 dark:text-slate-300 hover:text-rose-500 dark:hover:text-rose-400 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-            aria-label="Back to chat list"
+          onClick={onBackToList}
+          style={{
+            marginRight: 16,
+            padding: 8,
+            color: '#64748b',
+            background: 'none',
+            border: 'none',
+            borderRadius: '50%',
+            cursor: 'pointer',
+            transition: 'color 0.2s, background 0.2s',
+          }}
+          aria-label="Back to chat list"
         >
-          <HiArrowLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+          <HiArrowLeft style={{ width: 28, height: 28 }} />
         </button>
-        {/* Avatar Placeholder - TODO: Fetch targetUser's avatarUrl if available */}
-        <HiUserCircle className="w-8 h-8 sm:w-10 sm:h-10 text-slate-500 dark:text-slate-400 mr-2 sm:mr-3" />
-        <h2 className="text-lg sm:text-xl font-semibold truncate">{targetUserName}</h2>
+        <HiUserCircle style={{ width: 40, height: 40, color: '#94a3b8', marginRight: 16 }} />
+        <h2 style={{ fontSize: 22, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{targetUserName}</h2>
       </header>
 
       {/* Messages Area */}
-      <div className="flex-grow overflow-y-auto p-3 sm:p-4 space-y-3"> {/* Removed bg-slate-900, inherits from parent */}
-        {messagesLoading && <p className="text-center text-slate-500 dark:text-slate-400 py-4">Loading messages...</p>}
-        {messagesError && <p className="text-center text-red-500 dark:text-red-400 py-4">Error: {messagesError.message}</p>}
+      <div style={{
+        flexGrow: 1,
+        overflowY: 'auto',
+        padding: '1.25rem',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 16,
+        background: 'transparent',
+      }}>
+        {messagesLoading && <p style={{ textAlign: 'center', color: '#64748b', padding: 16 }}>Loading messages...</p>}
+        {messagesError && <p style={{ textAlign: 'center', color: '#ef4444', padding: 16 }}>Error: {messagesError.message}</p>}
         {!messagesLoading && messages.length === 0 && (
-          <p className="text-center text-slate-400 dark:text-slate-500 py-10">No messages yet. Say hello! 👋</p>
+          <p style={{ textAlign: 'center', color: '#cbd5e1', padding: 40, fontSize: 18 }}>No messages yet. Say hello! 👋</p>
         )}
         {messages.map((msg: Message) => (
           <div
             key={msg.id}
-            className={`flex ${msg.sender_id === currentUserId ? 'justify-end' : 'justify-start'}`}
+            style={{ display: 'flex', justifyContent: msg.sender_id === currentUserId ? 'flex-end' : 'flex-start' }}
           >
             <div
-              className={`max-w-[70%] sm:max-w-[60%] px-3.5 py-2 rounded-2xl shadow ${
-                msg.sender_id === currentUserId
-                  ? 'bg-rose-500 dark:bg-rose-600 text-white rounded-br-none'
-                  : 'bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-100 rounded-bl-none'
-              }`}
+              style={{
+                maxWidth: '70%',
+                padding: '0.75rem 1.1rem',
+                borderRadius: 20,
+                boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+                background: msg.sender_id === currentUserId ? 'linear-gradient(90deg, #f43f5e 0%, #be185d 100%)' : 'linear-gradient(90deg, #e2e8f0 0%, #cbd5e1 100%)',
+                color: msg.sender_id === currentUserId ? '#fff' : '#1e293b',
+                borderBottomRightRadius: msg.sender_id === currentUserId ? 4 : 20,
+                borderBottomLeftRadius: msg.sender_id === currentUserId ? 20 : 4,
+                marginBottom: 2,
+                position: 'relative',
+                wordBreak: 'break-word',
+              }}
             >
-              <p className="text-sm whitespace-pre-wrap break-words">{msg.content}</p>
-              <div className={`text-xs mt-1 flex items-center ${msg.sender_id === currentUserId ? 'text-rose-100 dark:text-rose-300' : 'text-slate-400 dark:text-slate-500'} opacity-80`}>
+              <p style={{ fontSize: 15, margin: 0, whiteSpace: 'pre-wrap' }}>{msg.content}</p>
+              <div style={{
+                fontSize: 12,
+                marginTop: 6,
+                display: 'flex',
+                alignItems: 'center',
+                color: msg.sender_id === currentUserId ? '#fbcfe8' : '#64748b',
+                opacity: 0.85,
+              }}>
                 <span>{new Date(msg.created_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })}</span>
-                {msg.sender_id === currentUserId && msg.is_read && <HiCheckCircle className="w-3 h-3 ml-1 text-sky-300 dark:text-sky-400" title="Read" />}
+                {msg.sender_id === currentUserId && msg.is_read && <HiCheckCircle style={{ width: 16, height: 16, marginLeft: 4, color: '#38bdf8' }} title="Read" />}
               </div>
             </div>
           </div>
@@ -311,33 +360,65 @@ const IndividualChatPage: React.FC<IndividualChatPageProps> = ({ targetUserId, t
       </div>
 
       {/* Message Input Area */}
-      <footer className="p-3 sm:p-4 bg-slate-100 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 sticky bottom-0 z-20">
-        <form onSubmit={handleSendMessage} className="flex items-center space-x-2 sm:space-x-3">
+      <footer style={{
+        padding: '1rem',
+        background: 'rgba(255,255,255,0.97)',
+        borderTop: '1px solid #e2e8f0',
+        position: 'sticky',
+        bottom: 0,
+        zIndex: 20,
+      }}>
+        <form onSubmit={handleSendMessage} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <input
             type="text"
             value={newMessageContent}
             onChange={(e) => setNewMessageContent(e.target.value)}
             placeholder="Type a message..."
-            className="flex-grow p-3 rounded-full shadow-sm border border-slate-300 dark:border-slate-600 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 sm:text-sm transition-colors duration-150 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 disabled:opacity-50"
+            style={{
+              flexGrow: 1,
+              padding: '0.9rem 1.2rem',
+              borderRadius: 9999,
+              border: '1.5px solid #cbd5e1',
+              fontSize: 15,
+              outline: 'none',
+              background: '#fff',
+              color: '#1e293b',
+              boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
+              transition: 'border 0.2s',
+            }}
             disabled={sendingMessage}
           />
           <button
             type="submit"
             disabled={sendingMessage || !newMessageContent.trim()}
-            className="p-3 bg-rose-500 hover:bg-rose-600 dark:bg-rose-600 dark:hover:bg-rose-700 text-white font-semibold rounded-full disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-150 ease-in-out transform focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800 shadow-lg hover:scale-105 active:scale-95"
+            style={{
+              padding: 12,
+              background: 'linear-gradient(90deg, #f43f5e 0%, #be185d 100%)',
+              color: '#fff',
+              fontWeight: 600,
+              border: 'none',
+              borderRadius: '50%',
+              boxShadow: '0 2px 8px rgba(244,63,94,0.12)',
+              cursor: sendingMessage || !newMessageContent.trim() ? 'not-allowed' : 'pointer',
+              opacity: sendingMessage || !newMessageContent.trim() ? 0.6 : 1,
+              transition: 'background 0.2s, transform 0.1s',
+              outline: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
             aria-label="Send message"
           >
             {sendingMessage ?
-                <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                : <HiPaperAirplane className="w-5 h-5 transform rotate-[30deg]" /> // Adjusted rotation for better look
+              <svg className="animate-spin" style={{ height: 20, width: 20 }} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+              : <HiPaperAirplane style={{ width: 20, height: 20, transform: 'rotate(30deg)' }} />
             }
           </button>
         </form>
-        {sendMessageError && <p className="text-xs text-red-500 dark:text-red-400 mt-1 pl-2">Failed to send: {sendMessageError.message}</p>}
+        {sendMessageError && <p style={{ fontSize: 13, color: '#ef4444', marginTop: 6, paddingLeft: 8 }}>Failed to send: {sendMessageError.message}</p>}
       </footer>
     </div>
   );
-// ... (rest of the component export)
 };
 
 export default IndividualChatPage;
