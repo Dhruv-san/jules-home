@@ -2,6 +2,7 @@
   "name": "cofounder-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@apollo/client": "^3.13.8",
     "@nhost/nhost-js": "^3.3.0",
