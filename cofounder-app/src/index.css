@@ -2,13 +2,17 @@
 /* If using Tailwind, ensure your build process includes Tailwind CSS */
 
 
-@layer base {
-  body {
-    @apply bg-white text-blue-800;
-    @apply transition-colors duration-300 ease-in-out;
-  }
-  /* General link styling */
-  a {
-    @apply text-red-600 hover:text-red-500;
-  }
+body {
+  background-color: #fff;
+  color: #1e40af;
+  transition-property: color, background-color;
+  transition-duration: 300ms;
+  transition-timing-function: ease-in-out;
+}
+a {
+  color: #dc2626;
+  transition: color 0.2s;
+}
+a:hover {
+  color: #ef4444;
 }
