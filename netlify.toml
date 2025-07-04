@@ -1,14 +1,12 @@
 # Netlify configuration file
 
+
 [build]
   base = "cofounder-app"
   command = "npm run build" # Standard CRA build command
   publish = "build"         # Standard CRA output directory
-  environment = { # These are placeholders; actual values set in Netlify UI
-    REACT_APP_NHOST_SUBDOMAIN = "jcsbkxlsyqxqnpvffgvk",
-    REACT_APP_NHOST_REGION = "ap-south-1",
-    REACT_APP_NEWS_API_KEY = "83a679cb473e4cf7bd58f918de5adee4"
-  }
+
+# Environment variables should be set in the Netlify UI, not in netlify.toml for security and compatibility.
 
 # Redirect rule for Single Page Applications (SPA)
 # This ensures that direct navigation to routes like /dashboard or /login
