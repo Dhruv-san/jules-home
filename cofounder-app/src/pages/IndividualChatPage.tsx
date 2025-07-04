@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useQuery, useMutation, useSubscription, gql } from '@apollo/client';
-import { useUserData } from '@nhost/react';
+import { useQuery, useMutation, useSubscription, gql, ApolloCache } from '@apollo/client'; // types are available via package
+import { useUserData } from '@nhost/react'; // types are available via package
+import { HiArrowLeft, HiPaperAirplane, HiUserCircle, HiCheckCircle } from 'react-icons/hi'; // Added icons
 
 // Types
 interface Message {
@@ -133,7 +134,7 @@ const IndividualChatPage: React.FC<IndividualChatPageProps> = ({ targetUserId, t
   const [newMessageContent, setNewMessageContent] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null); // For scrolling to bottom
 
-  const { data: messagesData, loading: messagesLoading, error: messagesError, refetch } = useQuery<GetMessagesData, GetMessagesVars>(GET_MESSAGES, {
+  const { data: messagesData, loading: messagesLoading, error: messagesError } = useQuery<GetMessagesData, GetMessagesVars>(GET_MESSAGES, {
     variables: { currentUserId: currentUserId || '', otherUserId: targetUserId, limit: 20, offset: 0 }, // Load initial 20 messages
     skip: !currentUserId || !targetUserId,
     fetchPolicy: 'network-only', // Get fresh messages on load
@@ -146,9 +147,10 @@ const IndividualChatPage: React.FC<IndividualChatPageProps> = ({ targetUserId, t
   useSubscription<OnNewMessageData>(ON_NEW_MESSAGE_SUBSCRIPTION, {
     variables: { currentUserId, otherUserId: targetUserId },
     skip: !currentUserId || !targetUserId,
-    onData: ({ data: subscriptionData }) => {
-      if (subscriptionData?.data?.messages) {
-        const newMessages = subscriptionData.data.messages;
+    onData: (options: { data?: OnNewMessageData }) => {
+      const messages = options.data?.messages;
+      if (messages && Array.isArray(messages)) {
+        const newMessages = messages;
         // Update Apollo Client cache directly for real-time updates
         // This is more robust than just setting local state
         const existingMessagesQuery = messagesData; // from useQuery
@@ -156,7 +158,7 @@ const IndividualChatPage: React.FC<IndividualChatPageProps> = ({ targetUserId, t
         if (existingMessagesQuery && newMessages.length > 0) {
             // Simple merge, assuming new messages are not already in cache from initial load.
             // More sophisticated cache updates might be needed for perfect deduplication.
-            const combinedMessages = [...(existingMessagesQuery.messages || []), ...newMessages.filter(nm => !(existingMessagesQuery.messages || []).find(em => em.id === nm.id))];
+            const combinedMessages = [...(existingMessagesQuery.messages || []), ...newMessages.filter((nm: Message) => !(existingMessagesQuery.messages || []).find((em: Message) => em.id === nm.id))];
             combinedMessages.sort((a,b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
 
             // This is a conceptual update. Direct cache update is preferred:
@@ -205,7 +207,7 @@ const IndividualChatPage: React.FC<IndividualChatPageProps> = ({ targetUserId, t
     // Mark messages from targetUser as read when component mounts or targetUserId changes
     if (currentUserId && targetUserId) {
       markAsRead({ variables: { senderId: targetUserId, currentUserId } })
-        .catch(err => console.error("Failed to mark messages as read:", err));
+        .catch((err: unknown) => console.error("Failed to mark messages as read:", err));
     }
   }, [targetUserId, currentUserId, markAsRead, messagesData]); // Rerun if messagesData changes to catch new ones
 
@@ -229,7 +231,7 @@ const IndividualChatPage: React.FC<IndividualChatPageProps> = ({ targetUserId, t
           },
         },
         // Update cache after mutation (optional, Apollo might do it if data structure matches)
-        update: (cache, { data: mutationResult }) => {
+        update: (cache: ApolloCache<GetMessagesData>, { data: mutationResult }: { data?: { insert_messages_one: Message } }) => {
           const newMessage = mutationResult?.insert_messages_one;
           if (newMessage) {
             const existingMessages = cache.readQuery<GetMessagesData>({
@@ -255,16 +257,9 @@ const IndividualChatPage: React.FC<IndividualChatPageProps> = ({ targetUserId, t
     }
   };
 
+
   const messages = messagesData?.messages || [];
   // Fix: messagesData is now the correct variable for useQuery result
-
-import { HiArrowLeft, HiPaperAirplane, HiUserCircle, HiCheckCircle } from 'react-icons/hi'; // Added icons
-
-// ... (imports and GQL definitions remain the same)
-
-// ... (IndividualChatPageProps and component function signature remain the same)
-
-// ... (state, queries, mutations, effects remain the same up to the return statement)
 
   return (
     <div className="flex flex-col h-full max-h-screen bg-white dark:bg-slate-900"> {/* Ensure full height for chat layout */}
@@ -289,7 +284,7 @@ import { HiArrowLeft, HiPaperAirplane, HiUserCircle, HiCheckCircle } from 'react
         {!messagesLoading && messages.length === 0 && (
           <p className="text-center text-slate-400 dark:text-slate-500 py-10">No messages yet. Say hello! 👋</p>
         )}
-        {messages.map((msg) => (
+        {messages.map((msg: Message) => (
           <div
             key={msg.id}
             className={`flex ${msg.sender_id === currentUserId ? 'justify-end' : 'justify-start'}`}

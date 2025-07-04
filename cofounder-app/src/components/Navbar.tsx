@@ -1,12 +1,11 @@
 import React from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { useAuthenticationStatus, useNhostClient, useUserData } from '@nhost/react';
+import { useAuthenticationStatus, useNhostClient } from '@nhost/react';
 
 const Navbar: React.FC = () => {
   const { isAuthenticated } = useAuthenticationStatus();
   const nhost = useNhostClient();
   const navigate = useNavigate();
-  // const user = useUserData(); // Available if you want to display user name/avatar in navbar
 
   const handleLogout = async () => {
     await nhost.auth.signOut();

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTheme } from '../../context/ThemeContext';
-import { HiMoon, HiSun } from 'react-icons/hi';
+import { MdDarkMode, MdLightMode } from 'react-icons/md';
 
 const ThemeToggle: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
@@ -13,11 +13,11 @@ const ThemeToggle: React.FC = () => {
     >
       {theme === 'light' ? (
         <>
-          <HiMoon className="w-5 h-5 mr-2" /> Switch to Dark Mode
+          <MdDarkMode className="w-5 h-5 mr-2" /> Switch to Dark Mode
         </>
       ) : (
         <>
-          <HiSun className="w-5 h-5 mr-2" /> Switch to Light Mode
+          <MdLightMode className="w-5 h-5 mr-2" /> Switch to Light Mode
         </>
       )}
     </button>

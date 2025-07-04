@@ -13,7 +13,7 @@ const LoginPage: React.FC = () => {
 
   const { signInEmailPassword, isLoading, isSuccess, needsEmailVerification, isError, error } = useSignInEmailPassword();
 
-  const from = (location.state as any)?.from?.pathname || '/dashboard';
+  const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/dashboard';
 
   const handleGoogleLogin = async () => {
     try {
@@ -139,7 +139,7 @@ const LoginPage: React.FC = () => {
         </div>
 
         <p className="mt-8 text-center text-sm text-slate-400">
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <Link to="/signup" className="font-medium text-rose-500 hover:text-rose-400">
             Sign Up
           </Link>

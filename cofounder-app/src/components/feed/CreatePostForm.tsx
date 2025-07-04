@@ -96,7 +96,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ onPostCreated }) => {
     setIsUploading(true);
     setUploadProgress(0); // Reset progress
 
-    let uploadedImageUrls: string[] = [];
+    const uploadedImageUrls: string[] = [];
     let uploadedVideoUrl: string | null = null;
 
     try {
@@ -154,9 +154,9 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ onPostCreated }) => {
       setVideoPreview(null);
       onPostCreated(); // Callback to parent (e.g., FeedPage to refetch posts)
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error creating post:', error);
-      alert(`Failed to create post: ${error.message || 'Unknown error'}`);
+      alert(`Failed to create post: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setIsUploading(false);
       setUploadProgress(0);

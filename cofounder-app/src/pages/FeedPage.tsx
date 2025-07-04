@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useQuery, gql } from '@apollo/client';
-import { useUserData } from '@nhost/react';
+import { useQuery, gql } from '@apollo/client'; // types are available via package
+import { useUserData } from '@nhost/react'; // types are available via package
 
 import CreatePostForm from '../components/feed/CreatePostForm';
 
@@ -28,14 +28,9 @@ interface GetFeedPostsData {
   posts: Post[];
 }
 
-interface UserProfileInterests {
-    user_id: string;
-    interests: string[] | null;
-}
 
-interface GetUserInterestsData {
-    profiles: UserProfileInterests[]; // profiles is an array, even with limit 1
-}
+
+
 
 interface NewsArticle {
     source: { id: string | null; name: string };
@@ -138,13 +133,13 @@ const NewsArticleItem: React.FC<{ article: NewsArticle }> = ({ article }) => (
 
 const FeedPage: React.FC = () => {
   const currentUser = useUserData();
-  const { data: postsData, loading: postsLoading, error: postsError, fetchMore, refetch: refetchPosts } = useQuery<GetFeedPostsData>(GET_FEED_POSTS, {
+  const { data: postsData, loading: postsLoading, error: postsError, fetchMore, refetch: refetchPosts } = useQuery<GetFeedPostsData, { limit: number; offset: number }>(GET_FEED_POSTS, {
     variables: { limit: 10, offset: 0 },
     notifyOnNetworkStatusChange: true,
   });
-  const { data: interestsData, error: interestsError } = useQuery(GET_USER_INTERESTS, {
-      variables: { userId: currentUser?.id },
-      skip: !currentUser?.id,
+  const { data: interestsData } = useQuery<{ profiles: { user_id: string; interests: string[] }[] }>(GET_USER_INTERESTS, {
+    variables: { userId: currentUser?.id },
+    skip: !currentUser?.id,
   });
 
   const [newsArticles, setNewsArticles] = useState<NewsArticle[]>([]);
@@ -171,9 +166,10 @@ const FeedPage: React.FC = () => {
             if (!response.ok) throw new Error(`News API request failed: ${response.statusText}`);
             const newsData = await response.json();
             setNewsArticles(newsData.articles || []);
-          } catch (err: any) {
+          } catch (err: unknown) {
+            const errorMsg = err instanceof Error ? err.message : String(err);
             console.error("Error fetching news:", err);
-            setNewsError(err.message || "Failed to fetch news.");
+            setNewsError(errorMsg || "Failed to fetch news.");
           } finally {
             setNewsLoading(false);
           }
@@ -181,7 +177,7 @@ const FeedPage: React.FC = () => {
       }
     };
     fetchNews();
-  }, [interestsData]);
+  }, [interestsData, NEWS_API_KEY]);
 
 
   const handlePostCreated = () => {
@@ -193,12 +189,12 @@ const FeedPage: React.FC = () => {
     setIsLoadingMorePosts(true);
     fetchMore({
       variables: { offset: postsData.posts.length },
-      updateQuery: (prevResult, { fetchMoreResult }) => {
+      updateQuery: (prevResult: GetFeedPostsData, { fetchMoreResult }: { fetchMoreResult?: GetFeedPostsData }) => {
         setIsLoadingMorePosts(false);
         if (!fetchMoreResult || fetchMoreResult.posts.length === 0) return prevResult;
         return { posts: [...prevResult.posts, ...fetchMoreResult.posts] };
       },
-    }).catch(err => {
+    }).catch((err: unknown) => {
         setIsLoadingMorePosts(false);
         console.error("Error fetching more posts:", err);
     });
@@ -231,12 +227,12 @@ const FeedPage: React.FC = () => {
           </div>
       )}
 
-      {!postsLoading && posts.length === 0 && newsArticles.length === 0 && (
+      {posts.length === 0 && !postsLoading && (
         <p className="text-slate-400 text-center py-10">No posts or news in the feed yet. Be the first to share something!</p>
       )}
 
       <div className="space-y-6">
-        {posts.map(post => ( // Only rendering posts here, news is separate above
+        {posts.map((post: Post) => (
           <PostItem key={post.id} post={post} />
         ))}
       </div>

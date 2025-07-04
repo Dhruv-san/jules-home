@@ -1,8 +1,7 @@
 import React from 'react';
-import { useQuery, useMutation, gql } from '@apollo/client';
-import { useUserData } from '@nhost/react';
-import { Link } from 'react-router-dom';
-import { HiOutlineChatAlt2, HiOutlineTrash, HiOutlineUserCircle } from 'react-icons/hi';
+import { useQuery, useMutation, gql, ApolloCache } from '@apollo/client'; // types are available via package
+import { useUserData } from '@nhost/react'; // types are available via package
+import { HiOutlineChatAlt2, HiOutlineTrash, HiOutlineUserCircle, HiOutlineBookmark } from 'react-icons/hi';
 
 // Types
 interface ProfileMin {
@@ -68,7 +67,7 @@ const SavedProfilesPage: React.FC = () => {
     try {
       await unsaveProfile({
         variables: { savedEntryId },
-        update: (cache) => {
+        update: (cache: ApolloCache<{ saved_profiles: SavedProfileEntry }>) => {
             cache.evict({ id: cache.identify({ __typename: 'saved_profiles', id: savedEntryId }) });
             cache.gc();
         }
@@ -82,7 +81,7 @@ const SavedProfilesPage: React.FC = () => {
   };
 
   if (loading) return <p className="text-center p-10 text-slate-600 dark:text-slate-300">Loading saved profiles...</p>;
-  if (error) return <p className="text-center p-10 text-red-500">Error loading saved profiles: {error.message}. Check Hasura relationship name for 'profileDetails'.</p>;
+  if (error) return <p className="text-center p-10 text-red-500">Error loading saved profiles: {error.message}. Check Hasura relationship name for &apos;profileDetails&apos;.</p>;
 
   const savedProfiles = data?.saved_profiles || [];
 
@@ -92,12 +91,12 @@ const SavedProfilesPage: React.FC = () => {
       {savedProfiles.length === 0 ? (
         <div className="text-center py-10">
           <HiOutlineBookmark className="w-16 h-16 text-slate-400 dark:text-slate-500 mx-auto mb-4" />
-          <p className="text-slate-500 dark:text-slate-400">You haven't saved any profiles yet.</p>
+          <p className="text-slate-500 dark:text-slate-400">You haven&apos;t saved any profiles yet.</p>
           <p className="text-sm text-slate-400 dark:text-slate-500">Start swiping to find potential co-founders!</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {savedProfiles.map((saved) => (
+          {savedProfiles.map((saved: SavedProfileEntry) => (
             saved.profileDetails ? (
               <div key={saved.id} className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-5 transform transition-all hover:shadow-xl hover:-translate-y-1">
                 <div className="flex items-start space-x-4 mb-4">
@@ -118,7 +117,7 @@ const SavedProfilesPage: React.FC = () => {
                 </div>
 
                 {saved.profileDetails.bio && (
-                    <p className="text-sm text-slate-500 dark:text-slate-400 italic line-clamp-3 mb-4">"{saved.profileDetails.bio}"</p>
+                    <p className="text-sm text-slate-500 dark:text-slate-400 italic line-clamp-3 mb-4">&quot;{saved.profileDetails.bio}&quot;</p>
                 )}
                 <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700 flex justify-end space-x-3">
                   <button // Changed Link to button for consistency with onClick alert

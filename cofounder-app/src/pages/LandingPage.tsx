@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { HiOutlineSparkles, HiOutlineUsers, HiOutlineChatAlt2, HiOutlineNewspaper } from 'react-icons/hi';
 
 // Simple functional component for feature items to reduce repetition
-const FeatureItem: React.FC<{ icon: React.ReactElement; title: string; description: string }> = ({ icon, title, description }) => (
+const FeatureItem: React.FC<{ icon: React.ReactElement<{ className: string }>; title: string; description: string }> = ({ icon, title, description }) => (
   <div className="flex flex-col items-center p-6 text-center bg-white dark:bg-slate-800/50 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out">
     <div className="p-4 bg-rose-500 dark:bg-rose-600 text-white rounded-full mb-4 inline-block">
       {React.cloneElement(icon, { className: "w-8 h-8" })}
@@ -17,7 +17,6 @@ const FeatureItem: React.FC<{ icon: React.ReactElement; title: string; descripti
 const LandingPage: React.FC = () => {
   // Define consistent button classes
   const primaryButtonClass = "px-8 py-3 text-lg font-semibold text-white bg-rose-600 dark:bg-rose-500 hover:bg-rose-700 dark:hover:bg-rose-600 rounded-lg shadow-md hover:shadow-lg transition-all duration-150 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900";
-  const secondaryButtonClass = "px-8 py-3 text-lg font-semibold text-rose-600 dark:text-rose-400 bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-lg shadow-md hover:shadow-lg transition-all duration-150 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900";
 
   return (
     // The global body styles from index.css will handle base bg and text color

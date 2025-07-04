@@ -223,11 +223,11 @@ const ProfileUpdateSection: React.FC = () => {
     const { name, value, type } = e.target;
     if (type === 'checkbox') {
       const { checked } = e.target as HTMLInputElement;
-      setFormData((prev: any) => ({ ...prev, [name]: checked }));
+      setFormData((prev) => ({ ...prev, [name]: checked }));
     } else if (type === 'number') {
-      setFormData((prev: any) => ({ ...prev, [name]: parseInt(value, 10) || 0 }));
+      setFormData((prev) => ({ ...prev, [name]: parseInt(value, 10) || 0 }));
     } else {
-      setFormData((prev: any) => ({ ...prev, [name]: value }));
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
@@ -254,9 +254,9 @@ const ProfileUpdateSection: React.FC = () => {
         if (fileMetadata) {
           finalAvatarUrl = nhost.storage.getPublicUrl({ fileId: fileMetadata.id });
         }
-      } catch (uploadError: any) {
+      } catch (uploadError: unknown) {
         console.error("Error uploading avatar:", uploadError);
-        alert(`Error uploading avatar: ${uploadError.message}`);
+        alert(`Error uploading avatar: ${uploadError instanceof Error ? uploadError.message : 'Unknown error'}`);
         setIsUploadingAvatar(false);
         return; // Stop submission if avatar upload fails
       } finally {
@@ -371,7 +371,7 @@ const ProfileUpdateSection: React.FC = () => {
         <section>
             <h3 className="text-lg font-medium text-rose-400 mb-2">Professional Background & Skills</h3>
             <div>
-              <label htmlFor="primaryRoleSeeking" className={labelClass}>Primary Role You're Seeking</label>
+              <label htmlFor="primaryRoleSeeking" className={labelClass}>Primary Role You&apos;re Seeking</label>
               <input type="text" name="primaryRoleSeeking" id="primaryRoleSeeking" value={formData.primaryRoleSeeking || ''} onChange={handleChange} className={inputClass} disabled={upsertLoading}/>
             </div>
             <div>
@@ -619,8 +619,9 @@ const DeleteAccountSection: React.FC = () => {
         navigate('/'); // Redirect to landing page
         // No need to setIsLoading(false) as component will unmount on redirect.
       }
-    } catch (err: any) {
-      setError(err.message || "An unexpected error occurred during account deletion.");
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : String(err);
+      setError(errorMsg || "An unexpected error occurred during account deletion.");
       setIsLoading(false);
     }
   };
@@ -645,7 +646,7 @@ const DeleteAccountSection: React.FC = () => {
             <h4 className="text-xl font-semibold mb-4 text-red-400">Confirm Deletion</h4>
             <p className="text-sm text-slate-300 mb-3">
               This action cannot be undone. To confirm permanent deletion of your account and all associated data,
-              please type <strong className="text-rose-400">"{requiredConfirmationText}"</strong> into the box below.
+              please type <strong className="text-rose-400">&quot;{requiredConfirmationText}&quot;</strong> into the box below.
             </p>
             <input
               type="text"

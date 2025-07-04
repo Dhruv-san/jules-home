@@ -40,13 +40,6 @@ const Sidebar: React.FC<SidebarProps> = ({ setActiveView, activeView, isMobileOp
   const baseItemClass = "flex items-center px-4 py-2.5 text-sm font-medium text-slate-300 dark:text-slate-200 hover:bg-slate-700 dark:hover:bg-slate-700 hover:text-white dark:hover:text-white rounded-lg transition-colors duration-150 cursor-pointer";
   const activeItemClass = "bg-rose-600 dark:bg-rose-600 text-white";
 
-  const handleItemClick = (viewId: string) => {
-    setActiveView(viewId);
-    if (isMobileOpen && toggleMobileSidebar) {
-      toggleMobileSidebar(); // Close sidebar on mobile after item click
-    }
-  };
-
   return (
     // Base classes for desktop, transform classes for mobile show/hide
     <div
@@ -83,7 +76,12 @@ const Sidebar: React.FC<SidebarProps> = ({ setActiveView, activeView, isMobileOp
         {navItems.map((item) => (
           <div
             key={item.viewId}
-            onClick={() => setActiveView(item.viewId)}
+            onClick={() => {
+              setActiveView(item.viewId);
+              if (isMobileOpen && toggleMobileSidebar) {
+                toggleMobileSidebar();
+              }
+            }}
             className={`${baseItemClass} ${activeView === item.viewId ? activeItemClass : ''}`}
             title={item.name} // Tooltip for icon-only state if sidebar collapses
           >

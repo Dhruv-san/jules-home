@@ -234,7 +234,7 @@ const UserProfileSetupPage: React.FC = () => {
           <section>
             <h2 className="text-xl font-semibold mb-3 border-b border-slate-700 pb-2">Professional Background & Skills</h2>
             <div>
-              <label htmlFor="primaryRoleSeeking" className={labelClass}>Primary Role You're Seeking (e.g., CEO, CTO, Technical)</label>
+              <label htmlFor="primaryRoleSeeking" className={labelClass}>Primary Role You&apos;re Seeking (e.g., CEO, CTO, Technical)</label>
               <input type="text" name="primaryRoleSeeking" id="primaryRoleSeeking" value={formData.primaryRoleSeeking} onChange={handleChange} className={inputClass} />
             </div>
             <div>
@@ -258,7 +258,7 @@ const UserProfileSetupPage: React.FC = () => {
             <h2 className="text-xl font-semibold mb-3 border-b border-slate-700 pb-2">Startup Idea & Vision</h2>
             <div className="flex items-center mt-2">
               <input type="checkbox" name="hasIdea" id="hasIdea" checked={formData.hasIdea} onChange={handleChange} className="h-4 w-4 text-rose-600 border-slate-500 rounded focus:ring-rose-500 bg-slate-700"/>
-              <label htmlFor="hasIdea" className="ml-2 text-sm text-slate-300">I have a startup idea I'm passionate about.</label>
+              <label htmlFor="hasIdea" className="ml-2 text-sm text-slate-300">I have a startup idea I&apos;m passionate about.</label>
             </div>
             {formData.hasIdea && (
               <>
@@ -282,9 +282,9 @@ const UserProfileSetupPage: React.FC = () => {
 
           {/* What You're Looking For in a Co-founder */}
           <section>
-            <h2 className="text-xl font-semibold mb-3 border-b border-slate-700 pb-2">What You're Looking For in a Co-founder</h2>
+            <h2 className="text-xl font-semibold mb-3 border-b border-slate-700 pb-2">What You&apos;re Looking For in a Co-founder</h2>
             <div>
-              <label htmlFor="cofounderLookingForRoles" className={labelClass}>Primary role(s) you're looking for in a co-founder</label>
+              <label htmlFor="cofounderLookingForRoles" className={labelClass}>Primary role(s) you&apos;re looking for in a co-founder</label>
               <p className={subLabelClass}>Comma-separated, e.g., CTO, Marketing Lead</p>
               <input type="text" name="cofounderLookingForRoles" id="cofounderLookingForRoles" value={formData.cofounderLookingForRoles} onChange={handleChange} className={inputClass} />
             </div>

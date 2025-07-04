@@ -107,6 +107,8 @@ const SwipePage: React.FC = () => {
   const [matchedUserName, setMatchedUserName] = useState('');
   const [savedProfileIds, setSavedProfileIds] = useState<Set<string>>(new Set());
 
+  const currentProfile = profiles[currentIndex];
+
   const { loading, error, data, refetch: refetchCandidates } = useQuery(GET_SWIPE_CANDIDATES, {
     variables: { currentUserId },
     skip: !currentUserId,
@@ -198,7 +200,7 @@ const SwipePage: React.FC = () => {
       </div>
 
       <div className="space-y-4 mb-8 text-sm border-t border-slate-200 dark:border-slate-700 pt-6">
-        {profile.bio && <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-center italic text-md line-clamp-3">"{profile.bio}"</p>}
+        {profile.bio && <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-center italic text-md line-clamp-3">&quot;{profile.bio}&quot;</p>}
 
         {profile.primary_role_seeking && (
           <div className="mt-4">
@@ -243,13 +245,13 @@ const SwipePage: React.FC = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-8 px-4 bg-slate-100 dark:bg-slate-900 transition-colors duration-300">
       {loading && <p className="text-center p-10 text-slate-700 dark:text-slate-300">Loading profiles...</p>}
-      {error && <p className="text-center p-10 text-red-600 dark:text-red-400">Error loading profiles: {error.message}. (Ensure 'swipes_received' relationship on 'profiles' table is correct in Hasura)</p>}
+      {error && <p className="text-center p-10 text-red-600 dark:text-red-400">Error loading profiles: {error.message}. (Ensure &apos;swipes_received&apos; relationship on &apos;profiles&apos; table is correct in Hasura)</p>}
 
       {!currentProfile && profiles.length === 0 && !loading && (
         <div className="flex flex-col items-center justify-center text-center max-w-md mx-auto p-8 bg-white dark:bg-slate-800 rounded-xl shadow-xl">
           <HiOutlineUserCircle className="w-24 h-24 text-slate-400 dark:text-slate-500 mb-6" />
           <h3 className="text-2xl font-semibold mb-3 text-slate-700 dark:text-white">No More Profiles</h3>
-          <p className="text-slate-500 dark:text-slate-400 mb-6">You've explored all available profiles for now. Why not check back later or adjust your preferences?</p>
+          <p className="text-slate-500 dark:text-slate-400 mb-6">You&apos;ve explored all available profiles for now. Why not check back later or adjust your preferences?</p>
           <button onClick={() => refetchCandidates()} className="px-6 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-semibold rounded-lg shadow-md transition-colors">Refresh</button>
         </div>
       )}
@@ -280,7 +282,7 @@ const SwipePage: React.FC = () => {
             <div className="mb-5">
               <span role="img" aria-label="match celebration" className="text-7xl block animate-bounce">🎉</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-rose-500 dark:text-rose-400 mb-3 tracking-tight">It's a Match!</h2>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-rose-500 dark:text-rose-400 mb-3 tracking-tight">It&apos;s a Match!</h2>
             <p className="text-lg text-slate-600 dark:text-slate-200 mb-8">
               You and <span className="font-semibold text-slate-800 dark:text-white">{matchedUserName}</span> are now connected!
             </p>
