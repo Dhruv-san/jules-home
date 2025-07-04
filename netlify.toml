@@ -1,6 +1,7 @@
 # Netlify configuration file
 
 [build]
+  base = "cofounder-app"
   command = "npm run build" # Standard CRA build command
   publish = "build"         # Standard CRA output directory
   environment = { # These are placeholders; actual values set in Netlify UI
