@@ -5,9 +5,9 @@
   command = "npm run build" # Standard CRA build command
   publish = "build"         # Standard CRA output directory
   environment = { # These are placeholders; actual values set in Netlify UI
-    REACT_APP_NHOST_SUBDOMAIN = "YOUR_NHOST_SUBDOMAIN_HERE",
-    REACT_APP_NHOST_REGION = "YOUR_NHOST_REGION_HERE",
-    REACT_APP_NEWS_API_KEY = "YOUR_NEWS_API_KEY_HERE"
+    REACT_APP_NHOST_SUBDOMAIN = "jcsbkxlsyqxqnpvffgvk",
+    REACT_APP_NHOST_REGION = "ap-south-1",
+    REACT_APP_NEWS_API_KEY = "83a679cb473e4cf7bd58f918de5adee4"
   }
 
 # Redirect rule for Single Page Applications (SPA)
