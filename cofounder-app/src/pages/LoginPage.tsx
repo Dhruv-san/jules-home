@@ -130,9 +130,17 @@ const LoginPage: React.FC = () => {
             <button
               onClick={handleGoogleLogin}
               type="button"
-              className="w-full flex items-center justify-center px-8 py-3 border border-slate-600 rounded-md shadow-sm text-sm font-medium text-white bg-slate-700 hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-rose-500"
+              className="w-full flex items-center justify-center gap-3 px-8 py-3 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm text-base font-semibold text-slate-700 dark:text-white bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-slate-900 focus:ring-blue-500"
             >
-              <svg className="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 0C4.477 0 0 4.477 0 10s4.477 10 10 10 10-4.477 10-10S15.523 0 10 0zm0 2c-4.418 0-8 3.582-8 8s3.582 8 8 8 8-3.582 8-8-3.582-8-8-8zm0 3.023c1.652 0 3 1.348 3 3s-1.348 3-3 3-3-1.348-3-3 1.348-3 3-3zm0 1.094c-1.05 0-1.906.857-1.906 1.906s.857 1.906 1.906 1.906 1.906-.857 1.906-1.906S11.05 6.117 10 6.117zM10 13.5c-2.48 0-4.5 2.02-4.5 4.5h9c0-2.48-2.02-4.5-4.5-4.5zm0 1c1.93 0 3.5 1.57 3.5 3.5H6.5c0-1.93 1.57-3.5 3.5-3.5z" clipRule="evenodd"></path></svg>
+              <svg className="h-5 w-5 mr-2" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                <g>
+                  <path fill="#4285F4" d="M24 9.5c3.54 0 6.07 1.53 7.47 2.81l5.54-5.39C33.64 3.61 29.28 1.5 24 1.5 14.98 1.5 7.13 7.73 4.13 15.19l6.91 5.37C12.98 15.13 17.06 9.5 24 9.5z"/>
+                  <path fill="#34A853" d="M46.1 24.55c0-1.64-.15-3.22-.42-4.74H24v9.01h12.42c-.54 2.9-2.18 5.36-4.66 7.01l7.19 5.59C43.87 37.13 46.1 31.3 46.1 24.55z"/>
+                  <path fill="#FBBC05" d="M11.04 28.56A14.5 14.5 0 0 1 9.5 24c0-1.58.27-3.11.76-4.56l-6.91-5.37A23.97 23.97 0 0 0 0 24c0 3.77.9 7.34 2.5 10.56l8.54-6z"/>
+                  <path fill="#EA4335" d="M24 46.5c6.28 0 11.55-2.08 15.39-5.67l-7.19-5.59c-2.01 1.35-4.59 2.16-8.2 2.16-6.94 0-11.02-5.63-12.96-8.87l-8.54 6C7.13 40.27 14.98 46.5 24 46.5z"/>
+                  <path fill="none" d="M0 0h48v48H0z"/>
+                </g>
+              </svg>
               Log In with Google
             </button>
           </div>
