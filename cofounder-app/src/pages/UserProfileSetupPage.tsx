@@ -116,16 +116,17 @@ const UserProfileSetupPage: React.FC = () => {
   const [upsertProfile, { loading, error }] = useMutation(UPSERT_USER_PROFILE);
 
   useEffect(() => {
-    // Pre-fill username from Nhost's user data if available (e.g. from Google display name or email part)
-    // Or if user was created with a display name.
-    if (user?.displayName && !formData.username) {
-        // A simple way to suggest a username, user can change it.
-        const suggestedUsername = user.displayName.split(' ')[0].toLowerCase() + Math.floor(Math.random()*100);
+    // This effect should only run once when the user data is loaded and the username is not yet set.
+    if (user && !formData.username) {
+      let suggestedUsername = '';
+      if (user.displayName) {
+        suggestedUsername = user.displayName.split(' ')[0].toLowerCase() + Math.floor(Math.random() * 100);
+      } else if (user.email) {
+        suggestedUsername = user.email.split('@')[0].toLowerCase().replace(/[^a-z0-9]/gi, '') + Math.floor(Math.random() * 100);
+      }
+      if (suggestedUsername) {
         setFormData(prev => ({ ...prev, username: suggestedUsername }));
-    }
-     if (user?.email && !formData.username && !user.displayName) { // Fallback if no display name
-        const suggestedUsername = user.email.split('@')[0].toLowerCase().replace(/[^a-z0-9]/gi, '') + Math.floor(Math.random()*100);
-        setFormData(prev => ({ ...prev, username: suggestedUsername }));
+      }
     }
   }, [user, formData.username]);
 
