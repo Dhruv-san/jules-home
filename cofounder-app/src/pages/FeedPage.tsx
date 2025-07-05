@@ -78,40 +78,39 @@ const GET_USER_INTERESTS = gql`
 const PostItem: React.FC<{ post: Post }> = ({ post }) => {
   const authorName = post.Author?.profile?.username || post.Author?.displayName || 'Anonymous';
   const AuthorAvatarPlaceholder: React.FC<{ name: string }> = ({ name }) => (
-    <div className="w-10 h-10 bg-slate-600 rounded-full flex items-center justify-center text-white font-semibold text-sm mr-3">
+    <div style={{ width: 40, height: 40, background: '#334155', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 600, fontSize: 16, marginRight: 12 }}>
       {name.charAt(0).toUpperCase()}
     </div>
   );
 
   return (
-    <div className="bg-white dark:bg-slate-800 p-4 sm:p-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl dark:hover:shadow-rose-500/20">
-      <div className="flex items-center mb-4">
+    <div style={{ background: '#fff', borderRadius: 18, boxShadow: '0 4px 24px 0 rgba(0,0,0,0.07)', padding: 24, marginBottom: 16, transition: 'box-shadow 0.3s' }}>
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 18 }}>
         {/* Avatar - TODO: Use actual avatar_url from post.Author if available */}
         <AuthorAvatarPlaceholder name={authorName} />
         <div>
-          <p className="font-semibold text-slate-800 dark:text-white">{authorName}</p>
-          <p className="text-xs text-slate-500 dark:text-slate-400">{new Date(post.created_at).toLocaleString()}</p>
+          <p style={{ fontWeight: 600, color: '#1e293b', marginBottom: 2 }}>{authorName}</p>
+          <p style={{ fontSize: 12, color: '#64748b' }}>{new Date(post.created_at).toLocaleString()}</p>
         </div>
-        {/* TODO: Add Edit/Delete buttons if post.user_id === currentUser?.id, styled appropriately */}
       </div>
-      {post.content_text && <p className="text-slate-700 dark:text-slate-300 mb-4 whitespace-pre-wrap leading-relaxed">{post.content_text}</p>}
+      {post.content_text && <p style={{ color: '#334155', marginBottom: 16, whiteSpace: 'pre-wrap', lineHeight: 1.6 }}>{post.content_text}</p>}
 
       {post.image_urls && post.image_urls.length > 0 && (
-        <div className={`grid gap-2 mb-4 ${post.image_urls.length > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
+        <div style={{ display: 'grid', gap: 8, marginBottom: 16, gridTemplateColumns: post.image_urls.length > 1 ? '1fr 1fr' : '1fr' }}>
           {post.image_urls.map((url, index) =>
             <img
               key={index}
               src={url}
               alt={`post content ${index + 1}`}
-              className="rounded-lg object-cover w-full max-h-96 shadow-md"
+              style={{ borderRadius: 12, objectFit: 'cover', width: '100%', maxHeight: 320, boxShadow: '0 2px 8px rgba(0,0,0,0.10)' }}
             />
           )}
         </div>
       )}
 
       {post.video_url && (
-        <div className="mb-4 rounded-lg overflow-hidden shadow-md">
-          <video controls src={post.video_url} className="w-full max-w-full mx-auto max-h-96 bg-black"> {/* Changed max-w-md to max-w-full */}
+        <div style={{ marginBottom: 16, borderRadius: 12, overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.10)' }}>
+          <video controls src={post.video_url} style={{ width: '100%', maxWidth: '100%', maxHeight: 320, background: '#000' }}>
             Your browser does not support the video tag.
           </video>
         </div>
@@ -121,13 +120,13 @@ const PostItem: React.FC<{ post: Post }> = ({ post }) => {
 };
 
 const NewsArticleItem: React.FC<{ article: NewsArticle }> = ({ article }) => (
-    <div className="bg-slate-800 p-4 sm:p-5 rounded-lg shadow-md">
-        {article.urlToImage && <img src={article.urlToImage} alt={article.title} className="w-full h-48 object-cover rounded-t-lg mb-3" />}
-        <h3 className="text-lg font-semibold text-white mb-1 hover:text-rose-400"><a href={article.url} target="_blank" rel="noopener noreferrer">{article.title}</a></h3>
-        <p className="text-xs text-slate-400 mb-2">By {article.author || article.source.name} - {new Date(article.publishedAt).toLocaleDateString()}</p>
-        <p className="text-sm text-slate-300 mb-3 line-clamp-3">{article.description}</p>
-        <a href={article.url} target="_blank" rel="noopener noreferrer" className="text-sm text-sky-400 hover:text-sky-300">Read more &rarr;</a>
-    </div>
+  <div style={{ background: '#1e293b', padding: 20, borderRadius: 14, boxShadow: '0 2px 8px rgba(0,0,0,0.10)', color: '#fff', marginBottom: 8 }}>
+    {article.urlToImage && <img src={article.urlToImage} alt={article.title} style={{ width: '100%', height: 180, objectFit: 'cover', borderRadius: 10, marginBottom: 12 }} />}
+    <h3 style={{ fontSize: 18, fontWeight: 600, marginBottom: 4 }}><a href={article.url} target="_blank" rel="noopener noreferrer" style={{ color: '#fff', textDecoration: 'none' }}>{article.title}</a></h3>
+    <p style={{ fontSize: 12, color: '#cbd5e1', marginBottom: 6 }}>By {article.author || article.source.name} - {new Date(article.publishedAt).toLocaleDateString()}</p>
+    <p style={{ fontSize: 14, color: '#e2e8f0', marginBottom: 10 }}>{article.description}</p>
+    <a href={article.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 14, color: '#38bdf8', textDecoration: 'underline' }}>Read more &rarr;</a>
+  </div>
 );
 
 
@@ -206,45 +205,52 @@ const FeedPage: React.FC = () => {
 
 
   return (
-    <div className="p-4 md:p-6 bg-slate-900 min-h-full text-white">
-      <CreatePostForm onPostCreated={handlePostCreated} />
-
-      <h2 className="text-2xl font-bold my-6 border-b border-slate-700 pb-2">Activity Feed</h2>
-
-      {(postsLoading && posts.length === 0) && <p className="text-center py-10">Loading feed...</p>}
-      {postsError && <p className="text-center py-10 text-red-500">Error loading posts: {postsError.message}</p>}
-
-      {/* Separate News Section for now for simplicity, can interleave later */}
-      {newsLoading && <p className="text-center py-5">Loading relevant news...</p>}
-      {newsError && <p className="text-center py-5 text-yellow-500">Could not load news: {newsError}</p>}
-      {newsArticles.length > 0 && (
-          <div className="mb-8">
-              <h3 className="text-xl font-semibold text-sky-400 mb-4">Relevant News For You</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {newsArticles.map(article => <NewsArticleItem key={article.url} article={article} />)}
-              </div>
-               <hr className="my-8 border-slate-700" />
-          </div>
-      )}
-
-      {posts.length === 0 && !postsLoading && (
-        <p className="text-slate-400 text-center py-10">No posts or news in the feed yet. Be the first to share something!</p>
-      )}
-
-      <div className="space-y-6">
-        {posts.map((post: Post) => (
-          <PostItem key={post.id} post={post} />
-        ))}
-      </div>
-
-      {!postsLoading && !isLoadingMorePosts && postsData && postsData.posts.length > 0 && postsData.posts.length % 10 === 0 && (
-        <div className="text-center mt-8">
-          <button onClick={loadMorePosts} className="px-6 py-3 bg-rose-600 hover:bg-rose-700 text-white font-semibold rounded-lg shadow-md" disabled={isLoadingMorePosts}>
-            {isLoadingMorePosts ? 'Loading...' : 'Load More Posts'}
-          </button>
+    <div style={{ padding: 24, background: 'linear-gradient(135deg, #f8fafc 0%, #1e293b 100%)', minHeight: '100vh', color: '#1e293b' }}>
+      <div style={{ maxWidth: 700, margin: '0 auto' }}>
+        <div style={{ marginBottom: 32 }}>
+          <CreatePostForm onPostCreated={handlePostCreated} />
         </div>
-      )}
-      {isLoadingMorePosts && <p className="text-center py-4">Loading more posts...</p>}
+        <h2 style={{ fontSize: 28, fontWeight: 800, margin: '32px 0 24px 0', borderBottom: '2px solid #e2e8f0', paddingBottom: 8, color: '#f43f5e' }}>Activity Feed</h2>
+
+        {(postsLoading && posts.length === 0) && <p style={{ textAlign: 'center', padding: 40, color: '#64748b' }}>Loading feed...</p>}
+        {postsError && <p style={{ textAlign: 'center', padding: 40, color: '#ef4444' }}>Error loading posts: {postsError.message}</p>}
+
+        {/* News Section */}
+        {newsLoading && <p style={{ textAlign: 'center', padding: 20, color: '#64748b' }}>Loading relevant news...</p>}
+        {newsError && <p style={{ textAlign: 'center', padding: 20, color: '#f59e42' }}>Could not load news: {newsError}</p>}
+        {newsArticles.length > 0 && (
+          <div style={{ marginBottom: 40 }}>
+            <h3 style={{ fontSize: 22, fontWeight: 700, color: '#38bdf8', marginBottom: 16 }}>Relevant News For You</h3>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18 }}>
+              {newsArticles.map(article => <NewsArticleItem key={article.url} article={article} />)}
+            </div>
+            <hr style={{ margin: '40px 0', border: 0, borderTop: '1.5px solid #e2e8f0' }} />
+          </div>
+        )}
+
+        {posts.length === 0 && !postsLoading && (
+          <p style={{ color: '#64748b', textAlign: 'center', padding: 40 }}>No posts or news in the feed yet. Be the first to share something!</p>
+        )}
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+          {posts.map((post: Post) => (
+            <PostItem key={post.id} post={post} />
+          ))}
+        </div>
+
+        {!postsLoading && !isLoadingMorePosts && postsData && postsData.posts.length > 0 && postsData.posts.length % 10 === 0 && (
+          <div style={{ textAlign: 'center', marginTop: 40 }}>
+            <button
+              onClick={loadMorePosts}
+              style={{ padding: '14px 36px', background: 'linear-gradient(90deg, #f43f5e 0%, #be185d 100%)', color: '#fff', fontWeight: 700, borderRadius: 10, border: 'none', boxShadow: '0 2px 8px rgba(244,63,94,0.10)', fontSize: 18, cursor: isLoadingMorePosts ? 'not-allowed' : 'pointer', opacity: isLoadingMorePosts ? 0.6 : 1, transition: 'background 0.2s, transform 0.1s' }}
+              disabled={isLoadingMorePosts}
+            >
+              {isLoadingMorePosts ? 'Loading...' : 'Load More Posts'}
+            </button>
+          </div>
+        )}
+        {isLoadingMorePosts && <p style={{ textAlign: 'center', padding: 16, color: '#64748b' }}>Loading more posts...</p>}
+      </div>
     </div>
   );
 };

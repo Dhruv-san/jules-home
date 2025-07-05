@@ -188,54 +188,54 @@ const SwipePage: React.FC = () => {
   // --- Card Sub-Component ---
   const Card: React.FC<{ profile: Profile; onSwipe: (action: 'like' | 'pass') => void; onSave: () => void; isSaved: boolean }> =
     ({ profile, onSwipe, onSave, isSaved }) => (
-    <div className="bg-white dark:bg-slate-800 rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-md mx-auto transform transition-all duration-300 ease-in-out hover:shadow-slate-300/50 dark:hover:shadow-rose-500/20">
-      <div className="text-center mb-6">
+    <div style={{ background: '#fff', borderRadius: 18, boxShadow: '0 4px 24px 0 rgba(0,0,0,0.10)', padding: 32, maxWidth: 420, margin: '0 auto', marginBottom: 32, transition: 'box-shadow 0.3s' }}>
+      <div style={{ textAlign: 'center', marginBottom: 24 }}>
         {profile.avatar_url ? (
-            <img src={profile.avatar_url} alt={profile.username} className="w-32 h-32 bg-slate-200 dark:bg-slate-700 rounded-full mx-auto mb-4 object-cover border-4 border-white dark:border-slate-700 shadow-lg"/>
+            <img src={profile.avatar_url} alt={profile.username} style={{ width: 128, height: 128, background: '#e2e8f0', borderRadius: '50%', margin: '0 auto 18px', objectFit: 'cover', border: '4px solid #fff', boxShadow: '0 2px 8px rgba(0,0,0,0.10)' }}/>
         ) : (
-            <HiOutlineUserCircle className="w-32 h-32 text-slate-400 dark:text-slate-500 mx-auto mb-4"/>
+            <HiOutlineUserCircle style={{ width: 128, height: 128, color: '#94a3b8', margin: '0 auto 18px' }}/>
         )}
-        <h2 className="text-3xl font-bold text-slate-800 dark:text-white tracking-tight">{profile.username}</h2>
-        {profile.full_name && <p className="text-slate-500 dark:text-slate-400 text-md mt-1">{profile.full_name}</p>}
+        <h2 style={{ fontSize: 28, fontWeight: 700, color: '#1e293b', marginBottom: 4 }}>{profile.username}</h2>
+        {profile.full_name && <p style={{ color: '#64748b', fontSize: 16, marginTop: 4 }}>{profile.full_name}</p>}
       </div>
 
-      <div className="space-y-4 mb-8 text-sm border-t border-slate-200 dark:border-slate-700 pt-6">
-        {profile.bio && <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-center italic text-md line-clamp-3">&quot;{profile.bio}&quot;</p>}
+      <div style={{ marginBottom: 24, fontSize: 15, borderTop: '1.5px solid #e2e8f0', paddingTop: 18 }}>
+        {profile.bio && <p style={{ color: '#334155', fontStyle: 'italic', textAlign: 'center', marginBottom: 12 }}>&quot;{profile.bio}&quot;</p>}
 
         {profile.primary_role_seeking && (
-          <div className="mt-4">
-            <h4 className="font-semibold text-slate-700 dark:text-slate-200 mb-1">Seeking Role:</h4>
-            <p className="text-slate-600 dark:text-slate-300">{profile.primary_role_seeking}</p>
+          <div style={{ marginTop: 12 }}>
+            <h4 style={{ fontWeight: 600, color: '#1e293b', marginBottom: 4 }}>Seeking Role:</h4>
+            <p style={{ color: '#64748b' }}>{profile.primary_role_seeking}</p>
           </div>
         )}
 
         {(profile.core_skills && profile.core_skills.length > 0) &&
-          <div className="mt-4">
-            <h4 className="font-semibold text-slate-700 dark:text-slate-200 mb-1">Core Skills:</h4>
-            <div className="flex flex-wrap gap-2">
-              {profile.core_skills.map(skill => <span key={skill} className="bg-rose-100 dark:bg-rose-900/80 text-rose-700 dark:text-rose-300 px-3 py-1 text-xs rounded-full font-medium shadow-sm">{skill}</span>)}
+          <div style={{ marginTop: 12 }}>
+            <h4 style={{ fontWeight: 600, color: '#1e293b', marginBottom: 4 }}>Core Skills:</h4>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+              {profile.core_skills.map(skill => <span key={skill} style={{ background: '#fbcfe8', color: '#be185d', padding: '6px 16px', fontSize: 13, borderRadius: 999, fontWeight: 500, boxShadow: '0 1px 4px rgba(244,63,94,0.08)' }}>{skill}</span>)}
             </div>
           </div>
         }
         {(profile.interests && profile.interests.length > 0) &&
-          <div className="mt-4">
-            <h4 className="font-semibold text-slate-700 dark:text-slate-200 mb-1">Interests:</h4>
-            <div className="flex flex-wrap gap-2">
-              {profile.interests.map(interest => <span key={interest} className="bg-sky-100 dark:bg-sky-900/80 text-sky-700 dark:text-sky-300 px-3 py-1 text-xs rounded-full font-medium shadow-sm">{interest}</span>)}
+          <div style={{ marginTop: 12 }}>
+            <h4 style={{ fontWeight: 600, color: '#1e293b', marginBottom: 4 }}>Interests:</h4>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+              {profile.interests.map(interest => <span key={interest} style={{ background: '#bae6fd', color: '#0ea5e9', padding: '6px 16px', fontSize: 13, borderRadius: 999, fontWeight: 500, boxShadow: '0 1px 4px rgba(14,165,233,0.08)' }}>{interest}</span>)}
             </div>
           </div>
         }
       </div>
 
-      <div className="flex justify-around items-center pt-6 border-t border-slate-200 dark:border-slate-700">
-        <button onClick={() => onSwipe('pass')} className="p-4 bg-white dark:bg-slate-700/80 hover:bg-red-100 dark:hover:bg-red-500/30 rounded-full text-red-500 dark:text-red-400 transition-all duration-200 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800 shadow-xl hover:shadow-red-300/50 dark:hover:shadow-red-500/40" aria-label="Pass">
-          <HiX className="w-8 h-8" />
+      <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', paddingTop: 18, borderTop: '1.5px solid #e2e8f0' }}>
+        <button onClick={() => onSwipe('pass')} style={{ padding: 18, background: '#fff', borderRadius: '50%', color: '#ef4444', border: 'none', fontSize: 0, boxShadow: '0 2px 8px rgba(239,68,68,0.10)', cursor: 'pointer', transition: 'background 0.2s, transform 0.1s' }} aria-label="Pass">
+          <HiX style={{ width: 32, height: 32 }} />
         </button>
-        <button onClick={onSave} className={`p-4 rounded-full transition-all duration-200 ease-in-out transform hover:scale-110 shadow-xl ${isSaved ? 'bg-amber-500 hover:bg-amber-600 text-white focus:ring-amber-400 hover:shadow-amber-400/50 dark:hover:shadow-amber-500/40' : 'bg-white dark:bg-slate-700/80 hover:bg-amber-100 dark:hover:bg-amber-500/30 text-amber-500 dark:text-amber-400 focus:ring-amber-500 hover:shadow-amber-300/50 dark:hover:shadow-amber-500/40'} focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-slate-800`} aria-label="Save">
-          <HiBookmark className="w-7 h-7" />
+        <button onClick={onSave} style={{ padding: 18, borderRadius: '50%', background: isSaved ? '#f59e42' : '#fff', color: isSaved ? '#fff' : '#f59e42', border: 'none', fontSize: 0, boxShadow: isSaved ? '0 2px 8px rgba(245,158,66,0.15)' : '0 2px 8px rgba(245,158,66,0.08)', cursor: 'pointer', transition: 'background 0.2s, transform 0.1s' }} aria-label="Save">
+          <HiBookmark style={{ width: 28, height: 28 }} />
         </button>
-        <button onClick={() => onSwipe('like')} className="p-4 bg-white dark:bg-slate-700/80 hover:bg-green-100 dark:hover:bg-green-500/30 rounded-full text-green-500 dark:text-green-400 transition-all duration-200 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800 shadow-xl hover:shadow-green-300/50 dark:hover:shadow-green-500/40" aria-label="Like">
-          <HiHeart className="w-8 h-8" />
+        <button onClick={() => onSwipe('like')} style={{ padding: 18, background: '#fff', borderRadius: '50%', color: '#22c55e', border: 'none', fontSize: 0, boxShadow: '0 2px 8px rgba(34,197,94,0.10)', cursor: 'pointer', transition: 'background 0.2s, transform 0.1s' }} aria-label="Like">
+          <HiHeart style={{ width: 32, height: 32 }} />
         </button>
       </div>
     </div>
@@ -243,23 +243,23 @@ const SwipePage: React.FC = () => {
 
   // --- Main Return for SwipePage ---
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-8 px-4 bg-slate-100 dark:bg-slate-900 transition-colors duration-300">
-      {loading && <p className="text-center p-10 text-slate-700 dark:text-slate-300">Loading profiles...</p>}
-      {error && <p className="text-center p-10 text-red-600 dark:text-red-400">Error loading profiles: {error.message}. (Ensure &apos;swipes_received&apos; relationship on &apos;profiles&apos; table is correct in Hasura)</p>}
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px 12px' }}>
+      {loading && <p style={{ textAlign: 'center', padding: 40, color: '#64748b' }}>Loading profiles...</p>}
+      {error && <p style={{ textAlign: 'center', padding: 40, color: '#ef4444' }}>Error loading profiles: {error.message}. (Ensure 'swipes_received' relationship on 'profiles' table is correct in Hasura)</p>}
 
       {!currentProfile && profiles.length === 0 && !loading && (
-        <div className="flex flex-col items-center justify-center text-center max-w-md mx-auto p-8 bg-white dark:bg-slate-800 rounded-xl shadow-xl">
-          <HiOutlineUserCircle className="w-24 h-24 text-slate-400 dark:text-slate-500 mb-6" />
-          <h3 className="text-2xl font-semibold mb-3 text-slate-700 dark:text-white">No More Profiles</h3>
-          <p className="text-slate-500 dark:text-slate-400 mb-6">You&apos;ve explored all available profiles for now. Why not check back later or adjust your preferences?</p>
-          <button onClick={() => refetchCandidates()} className="px-6 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-semibold rounded-lg shadow-md transition-colors">Refresh</button>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', maxWidth: 420, margin: '0 auto', padding: 32, background: '#fff', borderRadius: 18, boxShadow: '0 4px 24px 0 rgba(0,0,0,0.10)' }}>
+          <HiOutlineUserCircle style={{ width: 96, height: 96, color: '#94a3b8', marginBottom: 24 }} />
+          <h3 style={{ fontSize: 24, fontWeight: 700, marginBottom: 12, color: '#1e293b' }}>No More Profiles</h3>
+          <p style={{ color: '#64748b', marginBottom: 24 }}>You&apos;ve explored all available profiles for now. Why not check back later or adjust your preferences?</p>
+          <button onClick={() => refetchCandidates()} style={{ padding: '12px 32px', background: 'linear-gradient(90deg, #f43f5e 0%, #be185d 100%)', color: '#fff', fontWeight: 700, borderRadius: 10, border: 'none', boxShadow: '0 2px 8px rgba(244,63,94,0.10)', fontSize: 16, cursor: 'pointer', transition: 'background 0.2s, transform 0.1s' }}>Refresh</button>
         </div>
       )}
 
       {!currentProfile && currentIndex > 0 && profiles.length > 0 && !loading && (
-         <div className="flex flex-col items-center justify-center text-center p-8">
-             <h3 className="text-2xl font-semibold mb-4 text-slate-700 dark:text-white">Fetching more...</h3>
-             <button onClick={() => refetchCandidates()} className="px-6 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-semibold rounded-lg shadow-md transition-colors mt-2">Refresh Manually</button>
+         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: 32 }}>
+             <h3 style={{ fontSize: 24, fontWeight: 700, marginBottom: 16, color: '#1e293b' }}>Fetching more...</h3>
+             <button onClick={() => refetchCandidates()} style={{ padding: '12px 32px', background: 'linear-gradient(90deg, #f43f5e 0%, #be185d 100%)', color: '#fff', fontWeight: 700, borderRadius: 10, border: 'none', boxShadow: '0 2px 8px rgba(244,63,94,0.10)', fontSize: 16, cursor: 'pointer', transition: 'background 0.2s, transform 0.1s', marginTop: 12 }}>Refresh Manually</button>
          </div>
       )}
 
@@ -273,29 +273,29 @@ const SwipePage: React.FC = () => {
       )}
 
       {!currentProfile && !loading && profiles.length > 0 && currentIndex === 0 && (
-           <p className="text-center p-10 text-slate-700 dark:text-slate-300">Something went wrong loading the current profile. Try refreshing.</p>
+           <p style={{ textAlign: 'center', padding: 40, color: '#64748b' }}>Something went wrong loading the current profile. Try refreshing.</p>
       )}
 
       {showMatchModal && (
-        <div className="fixed inset-0 bg-slate-900 bg-opacity-70 dark:bg-opacity-80 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
-          <div className="bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-2xl shadow-2xl text-center max-w-sm w-full mx-auto">
-            <div className="mb-5">
-              <span role="img" aria-label="match celebration" className="text-7xl block animate-bounce">🎉</span>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(30,41,59,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, padding: 16, backdropFilter: 'blur(4px)' }}>
+          <div style={{ background: '#fff', padding: 36, borderRadius: 24, boxShadow: '0 8px 32px 0 rgba(0,0,0,0.18)', textAlign: 'center', maxWidth: 380, width: '100%', margin: '0 auto' }}>
+            <div style={{ marginBottom: 24 }}>
+              <span role="img" aria-label="match celebration" style={{ fontSize: 64, display: 'block', animation: 'bounce 1s infinite alternate' }}>🎉</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-rose-500 dark:text-rose-400 mb-3 tracking-tight">It&apos;s a Match!</h2>
-            <p className="text-lg text-slate-600 dark:text-slate-200 mb-8">
-              You and <span className="font-semibold text-slate-800 dark:text-white">{matchedUserName}</span> are now connected!
+            <h2 style={{ fontSize: 32, fontWeight: 800, color: '#f43f5e', marginBottom: 12 }}>It's a Match!</h2>
+            <p style={{ fontSize: 18, color: '#64748b', marginBottom: 32 }}>
+              You and <span style={{ fontWeight: 600, color: '#1e293b' }}>{matchedUserName}</span> are now connected!
             </p>
-            <div className="space-y-3 sm:space-y-0 sm:flex sm:flex-col sm:space-y-3 md:flex-row md:space-y-0 md:justify-center md:space-x-4">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'center', justifyContent: 'center' }}>
                 <button
                     onClick={closeMatchModal}
-                    className="w-full md:w-auto px-6 py-3 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-100 font-semibold rounded-lg transition-colors"
+                    style={{ padding: '12px 32px', background: '#e2e8f0', color: '#1e293b', fontWeight: 700, borderRadius: 10, border: 'none', fontSize: 16, cursor: 'pointer', marginBottom: 8 }}
                 >
                     Keep Swiping
                 </button>
                 <button
                     onClick={() => { closeMatchModal(); alert('TODO: Navigate to chat with ' + matchedUserName); }}
-                    className="w-full md:w-auto px-6 py-3 bg-rose-600 hover:bg-rose-700 dark:bg-rose-500 dark:hover:bg-rose-600 text-white font-semibold rounded-lg transition-colors"
+                    style={{ padding: '12px 32px', background: 'linear-gradient(90deg, #f43f5e 0%, #be185d 100%)', color: '#fff', fontWeight: 700, borderRadius: 10, border: 'none', fontSize: 16, cursor: 'pointer' }}
                 >
                     Send a Message
                 </button>

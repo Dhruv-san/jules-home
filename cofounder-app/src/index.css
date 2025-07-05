@@ -2,17 +2,40 @@
 /* If using Tailwind, ensure your build process includes Tailwind CSS */
 
 
-body {
-  background-color: #fff;
-  color: #1e40af;
-  transition-property: color, background-color;
-  transition-duration: 300ms;
-  transition-timing-function: ease-in-out;
+a {
+  color: #f43f5e;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
 }
 a {
-  color: #dc2626;
+  color: #f43f5e;
+  text-decoration: none;
+  font-weight: 500;
   transition: color 0.2s;
 }
 a:hover {
-  color: #ef4444;
+  color: #be185d;
+  text-decoration: underline;
+}
+
+button, input, textarea, select {
+  font-family: inherit;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  transition: box-shadow 0.2s, border 0.2s;
+}
+button {
+  cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  background: #e2e8f0;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 8px;
 }
