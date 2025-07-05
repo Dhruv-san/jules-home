@@ -1,18 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { HiOutlineSparkles, HiOutlineUsers, HiOutlineChatAlt2, HiOutlineNewspaper } from 'react-icons/hi';
+import { motion } from 'framer-motion';
 
-// Feature item with inline styles for fallback if CSS fails
+// Feature item with animation and Tailwind styling
 const FeatureItem: React.FC<{ icon: React.ReactElement; title: string; description: string }> = ({ icon, title, description }) => (
-  <div style={{
-    display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 28, textAlign: 'center', background: '#fff', borderRadius: 18, boxShadow: '0 4px 24px 0 rgba(0,0,0,0.07)', transition: 'box-shadow 0.3s', minHeight: 260, margin: 4
-  }}>
-    <div style={{ padding: 18, background: 'linear-gradient(90deg, #f43f5e 0%, #be185d 100%)', color: '#fff', borderRadius: '50%', marginBottom: 18, display: 'inline-block' }}>
-      {React.cloneElement(icon, { style: { width: 36, height: 36 } })}
+  <motion.div
+    className="flex flex-col items-center p-7 text-center bg-white rounded-2xl shadow-lg min-h-[260px] m-1 hover:shadow-glow transition-shadow duration-300"
+    initial={{ opacity: 0, y: 40 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.7, type: 'spring' }}
+  >
+    <div className="p-4 bg-gradient-to-r from-brand-main to-brand-dark text-white rounded-full mb-4 inline-block shadow-md animate-bounce">
+      {React.cloneElement(icon, { className: 'w-9 h-9' })}
     </div>
-    <h3 style={{ marginBottom: 8, fontSize: 22, fontWeight: 600, color: '#1e293b' }}>{title}</h3>
-    <p style={{ color: '#64748b', fontSize: 15, lineHeight: 1.6 }}>{description}</p>
-  </div>
+    <h3 className="mb-2 text-xl font-semibold text-slate-800">{title}</h3>
+    <p className="text-slate-500 text-base leading-relaxed">{description}</p>
+  </motion.div>
 );
 
 
@@ -20,51 +25,55 @@ const LandingPage: React.FC = () => {
 
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)', fontFamily: 'Inter, system-ui, sans-serif' }}>
+    <div className="min-h-screen flex flex-col bg-hero-gradient font-inter">
       {/* Navigation */}
-      <nav style={{
-        padding: '1.2rem 0',
-        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 40,
-        background: 'rgba(255,255,255,0.92)',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
-        backdropFilter: 'blur(8px)',
-      }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Link to="/" style={{ fontSize: 32, fontWeight: 700, color: '#f43f5e', textDecoration: 'none', letterSpacing: -1 }}>CoFound</Link>
-          <div style={{ display: 'flex', gap: 16 }}>
-            <Link to="/login" style={{ padding: '8px 18px', fontSize: 15, fontWeight: 500, color: '#334155', background: 'none', border: 'none', borderRadius: 7, textDecoration: 'none', transition: 'color 0.2s' }}>Log In</Link>
-            <Link to="/signup" style={{ padding: '8px 18px', fontSize: 15, fontWeight: 500, color: '#fff', background: 'linear-gradient(90deg, #f43f5e 0%, #be185d 100%)', borderRadius: 7, textDecoration: 'none', boxShadow: '0 2px 8px rgba(244,63,94,0.10)', transition: 'background 0.2s' }}>Sign Up</Link>
+      <nav className="py-5 fixed top-0 left-0 right-0 z-40 bg-white/90 shadow-md backdrop-blur-md">
+        <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">
+          <Link to="/" className="text-3xl font-bold text-brand-main tracking-tight">CoFound</Link>
+          <div className="flex gap-4">
+            <Link to="/login" className="px-4 py-2 text-base font-medium text-slate-700 bg-none rounded-md hover:text-brand-main transition-colors">Log In</Link>
+            <Link to="/signup" className="px-4 py-2 text-base font-medium text-white bg-gradient-to-r from-brand-main to-brand-dark rounded-md shadow hover:from-brand-dark hover:to-brand-main transition-all">Sign Up</Link>
           </div>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <header style={{
-        paddingTop: 120, paddingBottom: 64, textAlign: 'center', background: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)', flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-      }}>
-        <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 24px' }}>
-          <h1 style={{ fontSize: 48, fontWeight: 800, color: '#1e293b', marginBottom: 24, lineHeight: 1.1, letterSpacing: -1 }}>
-            Find Your <span style={{ color: '#f43f5e' }}>Perfect Co-Founder</span>.
+      <header className="pt-32 pb-16 text-center bg-hero-gradient flex flex-col items-center justify-center flex-grow">
+        <motion.div
+          className="max-w-3xl mx-auto px-6"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, type: 'spring' }}
+        >
+          <h1 className="text-5xl md:text-6xl font-extrabold text-slate-800 mb-6 leading-tight tracking-tight">
+            Find Your <span className="text-brand-main animate-pulse">Perfect Co-Founder</span>.
           </h1>
-          <p style={{ maxWidth: 520, margin: '0 auto', fontSize: 20, color: '#64748b', marginBottom: 40, lineHeight: 1.6 }}>
+          <p className="max-w-xl mx-auto text-xl text-slate-500 mb-10 leading-relaxed">
             Connect with driven entrepreneurs, share your vision, and build the next big thing, together. Stop searching, start building.
           </p>
-          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 24 }}>
-            <Link to="/signup" style={{ padding: '16px 40px', fontSize: 20, fontWeight: 600, color: '#fff', background: 'linear-gradient(90deg, #f43f5e 0%, #be185d 100%)', borderRadius: 12, boxShadow: '0 4px 24px 0 rgba(244,63,94,0.10)', textDecoration: 'none', transition: 'background 0.2s, transform 0.1s', outline: 'none', display: 'inline-block' }}>Get Started Free</Link>
-          </div>
-        </div>
+          <motion.div
+            className="flex flex-row justify-center items-center gap-6"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3, duration: 0.7 }}
+          >
+            <Link to="/signup" className="px-10 py-4 text-xl font-bold text-white bg-gradient-to-r from-brand-main to-brand-dark rounded-xl shadow-glow hover:scale-105 transition-transform duration-200 outline-none inline-block animate-fade-in">
+              Get Started Free
+            </Link>
+          </motion.div>
+        </motion.div>
       </header>
 
       {/* Features Section */}
-      <section id="features" style={{ padding: '64px 0', background: '#fff' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px' }}>
-          <div style={{ textAlign: 'center', marginBottom: 56 }}>
-            <h2 style={{ fontSize: 32, fontWeight: 800, color: '#1e293b', marginBottom: 16 }}>Why Choose CoFound?</h2>
-            <p style={{ fontSize: 18, color: '#64748b', maxWidth: 600, margin: '0 auto' }}>
+      <section id="features" className="py-16 bg-white">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-14">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-800 mb-4">Why Choose CoFound?</h2>
+            <p className="text-lg text-slate-500 max-w-2xl mx-auto">
               We provide the tools and community to help you find the ideal partner to launch your startup.
             </p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 32 }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <FeatureItem
               icon={<HiOutlineSparkles />}
               title="Intelligent Matching"
@@ -90,22 +99,43 @@ const LandingPage: React.FC = () => {
       </section>
 
       {/* Call to Action Section */}
-      <section style={{ padding: '64px 0', background: 'linear-gradient(90deg, #f43f5e 0%, #f59e42 100%)', color: '#fff' }}>
-        <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 24px', textAlign: 'center' }}>
-          <h2 style={{ fontSize: 32, fontWeight: 800, marginBottom: 24 }}>Ready to Build Your Dream Team?</h2>
-          <p style={{ maxWidth: 520, margin: '0 auto', fontSize: 20, opacity: 0.93, marginBottom: 40 }}>
+      <section className="py-16 bg-cta-gradient text-white">
+        <div className="max-w-3xl mx-auto px-6 text-center">
+          <motion.h2
+            className="text-3xl md:text-4xl font-extrabold mb-6"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+          >
+            Ready to Build Your Dream Team?
+          </motion.h2>
+          <motion.p
+            className="max-w-xl mx-auto text-xl opacity-90 mb-10"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.9, delay: 0.2 }}
+          >
             Join thousands of entrepreneurs who have found their co-founders on CoFound. Your next partner is just a swipe away.
-          </p>
-          <Link to="/signup" style={{ padding: '18px 48px', fontSize: 22, fontWeight: 700, color: '#f43f5e', background: '#fff', borderRadius: 12, boxShadow: '0 4px 24px 0 rgba(0,0,0,0.10)', textDecoration: 'none', transition: 'background 0.2s, transform 0.1s', display: 'inline-block' }}>
-            Find Your Co-Founder Today
-          </Link>
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.4 }}
+          >
+            <Link to="/signup" className="px-12 py-4 text-2xl font-bold text-brand-main bg-white rounded-xl shadow-lg hover:scale-105 transition-transform duration-200 inline-block">
+              Find Your Co-Founder Today
+            </Link>
+          </motion.div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer style={{ padding: '36px 0', textAlign: 'center', background: '#f1f5f9', borderTop: '1px solid #e2e8f0' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px' }}>
-          <p style={{ fontSize: 15, color: '#64748b' }}>
+      <footer className="py-9 text-center bg-background-dark border-t border-slate-200">
+        <div className="max-w-6xl mx-auto px-6">
+          <p className="text-base text-slate-500">
             &copy; {new Date().getFullYear()} CoFound. All rights reserved. Building the future, together.
           </p>
         </div>

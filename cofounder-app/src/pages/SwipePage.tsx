@@ -245,7 +245,7 @@ const SwipePage: React.FC = () => {
   return (
     <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px 12px' }}>
       {loading && <p style={{ textAlign: 'center', padding: 40, color: '#64748b' }}>Loading profiles...</p>}
-      {error && <p style={{ textAlign: 'center', padding: 40, color: '#ef4444' }}>Error loading profiles: {error.message}. (Ensure 'swipes_received' relationship on 'profiles' table is correct in Hasura)</p>}
+      {error && <p style={{ textAlign: 'center', padding: 40, color: '#ef4444' }}>Error loading profiles: {error.message}. (Ensure &apos;swipes_received&apos; relationship on &apos;profiles&apos; table is correct in Hasura)</p>}
 
       {!currentProfile && profiles.length === 0 && !loading && (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', maxWidth: 420, margin: '0 auto', padding: 32, background: '#fff', borderRadius: 18, boxShadow: '0 4px 24px 0 rgba(0,0,0,0.10)' }}>
@@ -282,7 +282,7 @@ const SwipePage: React.FC = () => {
             <div style={{ marginBottom: 24 }}>
               <span role="img" aria-label="match celebration" style={{ fontSize: 64, display: 'block', animation: 'bounce 1s infinite alternate' }}>🎉</span>
             </div>
-            <h2 style={{ fontSize: 32, fontWeight: 800, color: '#f43f5e', marginBottom: 12 }}>It's a Match!</h2>
+            <h2 style={{ fontSize: 32, fontWeight: 800, color: '#f43f5e', marginBottom: 12 }}>It&apos;s a Match!</h2>
             <p style={{ fontSize: 18, color: '#64748b', marginBottom: 32 }}>
               You and <span style={{ fontWeight: 600, color: '#1e293b' }}>{matchedUserName}</span> are now connected!
             </p>
