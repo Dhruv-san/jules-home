@@ -1,5 +1,7 @@
-/* @tailwind directives removed because Tailwind is not set up or not recognized by the current processor */
-/* If using Tailwind, ensure your build process includes Tailwind CSS */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 
 a {
